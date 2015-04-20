@@ -1,0 +1,62 @@
+{
+  "name": "baucis-swagger2",
+  "version": "0.1.0",
+  "description": "Generate customizable swagger version 2.0 definitions for your Baucis REST API.",
+  "homepage": "https://github.com/icinetic/baucis-swagger2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/icinetic/baucis-swagger2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/icinetic/baucis-swagger2/issues/new"
+  },
+  "main": "index.js",
+  "scripts": {
+    "pretest": "npm install",
+    "test": "mocha --bail --timeout 5000 -r spec"
+  },
+  "author": {
+    "name": "Pedro J. Molina",
+    "email": "pjmolina@icinetic.com",
+    "url": "http://pjmolina.com/metalevel"
+  },
+  "contributors": [
+    {
+      "name": "William Riley-Land",
+      "email": "william@kun.io",
+      "url": "http://kun.io/wprl"
+    },
+    {
+      "name": "Robbie Trencheny",
+      "email": "me@robbiet.us",
+      "url": "http://robbie.io/"
+    }
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "deco": "~0.10.2"
+  },
+  "peerDependencies": {
+    "mongoose": "^3.8.23",
+    "baucis": "^1.0.0"
+  },
+  "devDependencies": {
+    "async": "~0.2.9",
+    "baucis": "^1.0.0",
+    "expect.js": "~0.2.0",
+    "express": "~4.12.0",
+    "mocha": "~1.8.2",
+    "mongoose": "~3.8.23",
+    "request": "~2.21.0"
+  },
+  "keywords": [
+    "baucis",
+    "REST",
+    "RESTful",
+    "API",
+    "plugin",
+    "swagger",
+    "swagger20",
+    "documentation"
+  ]
+}
