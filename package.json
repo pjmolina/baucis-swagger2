@@ -1,6 +1,6 @@
 {
   "name": "baucis-swagger2",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Generate customizable swagger version 2.0 definitions for your Baucis REST API.",
   "homepage": "https://github.com/icinetic/baucis-swagger2",
   "repository": {
@@ -13,7 +13,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "npm install",
-    "test": "mocha --bail --timeout 5000 -r spec"
+    "test": "mocha --bail --timeout 5000 -R spec"
   },
   "author": {
     "name": "Pedro J. Molina",
