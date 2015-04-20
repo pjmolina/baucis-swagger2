@@ -126,7 +126,7 @@ function generateResourceListing (options) {
 
 //build an specific spec based on options and filtered controllers
 function generateResourceListingForVersion(options) {
-  var clone = options.rootDocument;
+  var clone = JSON.parse(JSON.stringify(options.rootDocument));
 
   clone.info.version =  options.version;
   clone.basePath = options.basePath;
