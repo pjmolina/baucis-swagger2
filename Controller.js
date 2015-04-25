@@ -240,9 +240,10 @@ module.exports = function () {
     return res;
   }
 
-  function buildOperation(mode, verb, resourceName, pluralName) {    
+  function buildOperation(containerPath, mode, verb, resourceName, pluralName) {    
     var operation = buildBaseOperation(mode, verb, resourceName, pluralName);
     operation.tags = buildTags(resourceName);
+    containerPath[verb] = operation;
     return operation;
   }
 
@@ -279,31 +280,35 @@ module.exports = function () {
     if (type === mongoose.Schema.Types.Buffer) { return null; }
     return null;
   }
-  // A method used to generated a Swagger property for a model
-  function generatePropertyDefinition(name, path, definitionName) {
-    var property = {};
+  function skipProperty(name, path, controller) {
     var select = controller.select();
-    var type = path.options.type ? swagger20TypeFor(path.options.type) : 'string'; // virtuals don't have type
     var mode = (select && select.match(/(?:^|\s)[-]/g)) ? 'exclusive' : 'inclusive';
     var exclusiveNamePattern = new RegExp('\\B-' + name + '\\b', 'gi');
     var inclusiveNamePattern = new RegExp('(?:\\B[+]|\\b)' + name + '\\b', 'gi');
-
     // Keep deselected paths private
     if (path.selected === false) { 
-      return; 
+      return true; 
     }
-
     // TODO is _id always included unless explicitly excluded?
 
     // If it's excluded, skip this one.
     if (select && mode === 'exclusive' && select.match(exclusiveNamePattern)) { 
-      return;
+      return true;
     }
     // If the mode is inclusive but the name is not present, skip this one.
     if (select && mode === 'inclusive' && name !== '_id' && !select.match(inclusiveNamePattern)) {
+      return true;
+    }
+    return false;
+  }
+  // A method used to generated a Swagger property for a model
+  function generatePropertyDefinition(name, path, definitionName) {
+    var property = {};
+    var type = path.options.type ? swagger20TypeFor(path.options.type) : 'string'; // virtuals don't have type
+
+    if (skipProperty(name, path, controller)) {
       return;
     }
-	
     // Configure the property
     if (path.options.type === mongoose.Schema.Types.ObjectId) {
       if ("_id" === name) {
@@ -348,15 +353,16 @@ module.exports = function () {
       // TODO: property.allowableValues.max = path.options.max;
     }
 	*/
-
     if (!property.type && !property.$ref) {
-      console.log('Warning: That field type is not yet supported in baucis Swagger definitions, using "string."');
-      console.log('Path name: %s.%s', utils.capitalize(controller.model().singular()), name);
-      console.log('Mongoose type: %s', path.options.type);
+      warnInvalidType(name, path);
       property.type = 'string';
     }
-
     return property;
+  }
+  function warnInvalidType(name, path) {
+    console.log('Warning: That field type is not yet supported in baucis Swagger definitions, using "string."');
+    console.log('Path name: %s.%s', utils.capitalize(controller.model().singular()), name);
+    console.log('Mongoose type: %s', path.options.type);
   }
 
   function mergePaths(definition, pathsCollection, definitionName) {
@@ -420,16 +426,14 @@ module.exports = function () {
     var instancePath =  '/' + pluralName + '/{id}'; 
 
     var paths = {};
-    paths[instancePath] = {
-      'get': buildOperation('instance', 'get', resourceName, pluralName),
-      'put': buildOperation('instance', 'put', resourceName, pluralName),
-      'delete': buildOperation('instance', 'delete', resourceName, pluralName)
-    };
-    paths[collectionPath] = {
-      'get': buildOperation('collection', 'get', resourceName, pluralName),
-      'post': buildOperation('collection', 'post', resourceName, pluralName),
-      'delete': buildOperation('collection', 'delete', resourceName, pluralName),
-    };
+    paths[instancePath] = {};
+    paths[collectionPath] = {};
+    buildOperation(paths[instancePath], 'instance', 'get', resourceName, pluralName);
+    buildOperation(paths[instancePath], 'instance', 'put', resourceName, pluralName);
+    buildOperation(paths[instancePath], 'instance', 'delete', resourceName, pluralName);
+    buildOperation(paths[collectionPath], 'collection', 'get', resourceName, pluralName);
+    buildOperation(paths[collectionPath], 'collection', 'post', resourceName, pluralName);
+    buildOperation(paths[collectionPath], 'collection', 'delete', resourceName, pluralName);
     controller.swagger2.paths = paths;
 
     return controller;
