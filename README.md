@@ -6,6 +6,8 @@ baucis-swagger2
 [![Test Coverage](https://codeclimate.com/github/Icinetic/baucis-swagger2/badges/coverage.svg)](https://codeclimate.com/github/Icinetic/baucis-swagger2)
 [![Dependency Status](https://david-dm.org/icinetic/baucis-swagger2.svg)](https://david-dm.org/icinetic/baucis-swagger2)
 
+[![NPM](https://nodei.co/npm/baucis-swagger2.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/baucis-swagger2/)
+
 
 This module generates customizable swagger 2.0 definitions for your Baucis API.  
 Use this module in conjunction with [Baucis](https://github.com/wprl/baucis).
