@@ -240,7 +240,10 @@ module.exports = function () {
     return res;
   }
 
-  function buildOperation(containerPath, mode, verb, resourceName, pluralName) {    
+  function buildOperation(containerPath, mode, verb) {    
+    var resourceName = controller.model().singular();
+    var pluralName = controller.model().plural();
+
     var operation = buildBaseOperation(mode, verb, resourceName, pluralName);
     operation.tags = buildTags(resourceName);
     containerPath[verb] = operation;
@@ -418,8 +421,7 @@ module.exports = function () {
     controller.swagger2.definitions[modelName] = generateModelDefinition(controller.model().schema, modelName);
     addInnerModelDefinitions(controller.swagger2.definitions, modelName);
 
-    // Instance path
-    var resourceName = controller.model().singular();
+    // Paths
     var pluralName = controller.model().plural();
 
     var collectionPath = '/' + pluralName; 
@@ -428,12 +430,12 @@ module.exports = function () {
     var paths = {};
     paths[instancePath] = {};
     paths[collectionPath] = {};
-    buildOperation(paths[instancePath], 'instance', 'get', resourceName, pluralName);
-    buildOperation(paths[instancePath], 'instance', 'put', resourceName, pluralName);
-    buildOperation(paths[instancePath], 'instance', 'delete', resourceName, pluralName);
-    buildOperation(paths[collectionPath], 'collection', 'get', resourceName, pluralName);
-    buildOperation(paths[collectionPath], 'collection', 'post', resourceName, pluralName);
-    buildOperation(paths[collectionPath], 'collection', 'delete', resourceName, pluralName);
+    buildOperation(paths[instancePath], 'instance', 'get');
+    buildOperation(paths[instancePath], 'instance', 'put');
+    buildOperation(paths[instancePath], 'instance', 'delete');
+    buildOperation(paths[collectionPath], 'collection', 'get');
+    buildOperation(paths[collectionPath], 'collection', 'post');
+    buildOperation(paths[collectionPath], 'collection', 'delete');
     controller.swagger2.paths = paths;
 
     return controller;
