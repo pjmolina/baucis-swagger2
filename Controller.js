@@ -95,53 +95,44 @@ module.exports = function () {
       required: false
     };
   }  
-  function getParamDocumentPost() {
+  function getParamDocument(isPost) {
     // TODO post body can be single or array
     return {
         name: 'document',
         in: 'body',
-        description: 'Create a document by sending the paths to be updated in the request body.',
+        description: (isPost) ?
+           'Create a document by sending the paths to be updated in the request body.' :
+           'Update a document by sending the paths to be updated in the request body.',
         schema: {
           $ref: '#/definitions/' + utils.capitalize(controller.model().singular()),
         }, 
         required: true
       };
-  }  
-  function getParamDocumentPut() {
-    return {
-        name: 'document',
-        in: 'body',
-        description: 'Update a document by sending the paths to be updated in the request body.',
-        schema: {
-          $ref: '#/definitions/' + utils.capitalize(controller.model().singular()),
-        }, 
-        required: true
-      };
-  }  
+  }    
   // Generate parameter list for operations
   function generateParameters(isInstance, verb) {
     var parameters = [];
     // Parameters available for singular and plural routes
-    parameters.push(getParamSelect());
-    parameters.push(getParamPopulate());
-    // Parameters available for singular routes
+    parameters.push(getParamSelect(), 
+                    getParamPopulate());
     if (isInstance) {
-      parameters.push(getParamId());
-      parameters.push(getParamXBaucisUpdateOperator());
+      // Parameters available for singular routes
+      parameters.push(getParamId(), 
+                      getParamXBaucisUpdateOperator());
     }
-    // Parameters available for plural routes
-    if (!isInstance) {
-      parameters.push(getParamSkip());
-      parameters.push(getParamLimit());
-      parameters.push(getParamCount());
-      parameters.push(getParamConditions());
-      parameters.push(getParamSort());
+    else {
+      // Parameters available for plural routes
+      parameters.push(getParamSkip(),
+                      getParamLimit(),
+                      getParamCount(),
+                      getParamConditions(),
+                      getParamSort());
     }
     if (verb === 'post') {
-      parameters.push(getParamDocumentPost());
+      parameters.push(getParamDocument(true));
     }
     if (verb === 'put') {
-      parameters.push(getParamDocumentPut());
+      parameters.push(getParamDocument(false));
     }
     return parameters;
   }
@@ -390,26 +381,21 @@ module.exports = function () {
     return definition;
   }
 
+  function mergePathsForInnerDef(defs, collectionPaths, definitionName) {
+    Object.keys(collectionPaths).forEach(function (name) {
+      var path = collectionPaths[name];
+      if (path.schema) {
+        var newdefinitionName = definitionName + utils.capitalize(name); //<-- synthetic name (no info for this in input model)
+        var def = generateModelDefinition(path.schema, newdefinitionName);
+        defs[newdefinitionName] = def;
+      }
+    });
+  }
+
   function addInnerModelDefinitions(defs, definitionName) {
     var schema = controller.model().schema;
-
-    Object.keys(schema.paths).forEach(function (name) {
-      var path = schema.paths[name];
-      if (path.schema) {
-        var newdefinitionName = definitionName + utils.capitalize(name); //<-- synthetic name (no info for this in input model)
-        var def = generateModelDefinition(path.schema, newdefinitionName);
-        defs[newdefinitionName] = def;
-      }
-    });
-
-    Object.keys(schema.virtuals).forEach(function (name) {
-      var path = schema.virtuals[name];
-      if (path.schema) {
-        var newdefinitionName = definitionName + utils.capitalize(name); //<-- synthetic name (no info for this in input model)
-        var def = generateModelDefinition(path.schema, newdefinitionName);
-        defs[newdefinitionName] = def;
-      }
-    });
+    mergePathsForInnerDef(defs, schema.paths, definitionName);
+    mergePathsForInnerDef(defs, schema.virtuals, definitionName);
   }
 
   // __Build the Definition__
