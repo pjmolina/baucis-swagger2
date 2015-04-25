@@ -1,6 +1,9 @@
 baucis-swagger2
 ===============
 
+[![Build Status](https://travis-ci.org/Icinetic/baucis-swagger2.svg)](https://travis-ci.org/Icinetic/baucis-swagger2)
+[![Code Climate](https://codeclimate.com/github/Icinetic/baucis-swagger2/badges/gpa.svg)](https://codeclimate.com/github/Icinetic/baucis-swagger2)
+[![Test Coverage](https://codeclimate.com/github/Icinetic/baucis-swagger2/badges/coverage.svg)](https://codeclimate.com/github/Icinetic/baucis-swagger2)
 [![Dependency Status](https://david-dm.org/icinetic/baucis-swagger2.svg)](https://david-dm.org/icinetic/baucis-swagger2)
 
 This module generates customizable swagger 2.0 definitions for your Baucis API.  
