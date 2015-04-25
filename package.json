@@ -13,7 +13,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "npm install",
-    "test": "mocha --bail --timeout 5000 -R spec"
+    "test": "istanbul cover node_modules/mocha/bin/_mocha -- --bail --timeout 5000 -R spec"
   },
   "author": {
     "name": "Pedro J. Molina",
@@ -45,6 +45,7 @@
     "baucis": "^1.1.1",
     "expect.js": "~0.3.1",
     "express": "~4.12.3",
+    "istanbul": "^0.3.13",
     "mocha": "~2.2.4",
     "mongoose": "~3.8.23",
     "request": "~2.55.0"
