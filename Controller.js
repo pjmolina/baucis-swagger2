@@ -385,8 +385,8 @@ module.exports = function () {
       required: [],
       properties: {}
     };
-    mergePaths(definitions, schema.paths, definitionName);
-    mergePaths(definitions, schema.virtuals, definitionName);
+    mergePaths(definition, schema.paths, definitionName);
+    mergePaths(definition, schema.virtuals, definitionName);
     return definition;
   }
 
