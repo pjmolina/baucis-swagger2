@@ -2,19 +2,9 @@
 
 // __Dependencies__
 var mongoose = require('mongoose');
+var utils = require('./utils');
 
 // __Private Members__
-
-// A method for capitalizing the first letter of a string
-function capitalize (s) {
-  if (!s) {
-    return s;
-  }
-  if (s.length === 1) {
-    return s.toUpperCase();
-  }
-  return s[0].toUpperCase() + s.substring(1);
-}
 
 // __Module Definition__
 var decorator = module.exports = function () {
@@ -114,7 +104,7 @@ var decorator = module.exports = function () {
         in: 'body',
         description: 'Create a document by sending the paths to be updated in the request body.',
         schema: {
-          $ref: '#/definitions/' + capitalize(controller.model().singular()),
+          $ref: '#/definitions/' + utils.capitalize(controller.model().singular()),
         }, 
         required: true
       });
@@ -126,7 +116,7 @@ var decorator = module.exports = function () {
         in: 'body',
         description: 'Update a document by sending the paths to be updated in the request body.',
         schema: {
-          $ref: '#/definitions/' + capitalize(controller.model().singular()),
+          $ref: '#/definitions/' + utils.capitalize(controller.model().singular()),
         }, 
         required: true
       });
@@ -135,31 +125,8 @@ var decorator = module.exports = function () {
     return parameters;
   }
 
-  function buildSemanticLabel(verb) {
-    if ("get"===verb || "head"===verb) {
-      return "query";
-    }
-    else if ("put"===verb || "patch"===verb) {
-      return "modify";
-    }
-    else if ("post"===verb) {
-      return "create";
-    }
-    else if ("delete"===verb) {
-      return "delete";
-    }
-    else if ("options"===verb) {
-      return "info";
-    } 
-    else if ("trace"===verb) {
-      return "trace";
-    } 
-    return null;
-  }
   function buildTags(resourceName) {
-    var res = [
-      resourceName    ];
-    return res;
+    return [ resourceName ];
   }
 
   function buildResponsesFor(isInstance, verb, resourceName, pluralName) {
@@ -174,7 +141,7 @@ var decorator = module.exports = function () {
     responses['200'] = {
       description: 'Sucessful response.',
       schema: {
-        '$ref': '#/definitions/' +  capitalize(resourceName)
+        '$ref': '#/definitions/' +  utils.capitalize(resourceName)
       }
     };
     // TODO other errors (400, 403, etc. )
@@ -298,7 +265,6 @@ var decorator = module.exports = function () {
   // A method used to generated a Swagger property for a model
   function generatePropertyDefinition (name, path, definitionName) {
     var property = {};
-    var schema = controller.model().schema;
     var select = controller.select();
     var type = path.options.type ? swagger20TypeFor(path.options.type) : 'string'; // virtuals don't have type
     var mode = (select && select.match(/(?:^|\s)[-]/g)) ? 'exclusive' : 'inclusive';
@@ -327,7 +293,7 @@ var decorator = module.exports = function () {
         property.type = 'string';
       }
       else if (path.options.ref) {
-        property.$ref = '#/definitions/'+capitalize(path.options.ref);  
+        property.$ref = '#/definitions/' + utils.capitalize(path.options.ref);  
       }
     }
     else if (path.schema) {
@@ -335,7 +301,7 @@ var decorator = module.exports = function () {
       property.type = 'array';        
       property.items = {
         //2. reference 
-        $ref: '#/definitions/'+ definitionName + capitalize(name)
+        $ref: '#/definitions/'+ definitionName + utils.capitalize(name)
       };       
     }
     else {
@@ -349,6 +315,7 @@ var decorator = module.exports = function () {
       }           
     }
 
+	/*
     // Set enum values if applicable
     if (path.enumValues && path.enumValues.length > 0) {
       // TODO:  property.allowableValues = { valueType: 'LIST', values: path.enumValues };
@@ -366,10 +333,11 @@ var decorator = module.exports = function () {
     if (!isNaN(path.options.max)) {
       // TODO: property.allowableValues.max = path.options.max;
     }
+	*/
 
     if (!property.type && !property.$ref) {
       console.log('Warning: That field type is not yet supported in baucis Swagger definitions, using "string."');
-      console.log('Path name: %s.%s', capitalize(controller.model().singular()), name);
+      console.log('Path name: %s.%s', utils.capitalize(controller.model().singular()), name);
       console.log('Mongoose type: %s', path.options.type);
       property.type = 'string';
     }
@@ -411,7 +379,7 @@ var decorator = module.exports = function () {
     Object.keys(schema.paths).forEach(function (name) {
       var path = schema.paths[name];
       if (path.schema) {
-        var newdefinitionName = definitionName + capitalize(name); //<-- synthetic name (no info for this in input model)
+        var newdefinitionName = definitionName + utils.capitalize(name); //<-- synthetic name (no info for this in input model)
         var def = generateModelDefinition(path.schema, newdefinitionName);
         defs[newdefinitionName] = def;
       }
@@ -420,7 +388,7 @@ var decorator = module.exports = function () {
     Object.keys(schema.virtuals).forEach(function (name) {
       var path = schema.virtuals[name];
       if (path.schema) {
-        var newdefinitionName = definitionName + capitalize(name); //<-- synthetic name (no info for this in input model)
+        var newdefinitionName = definitionName + utils.capitalize(name); //<-- synthetic name (no info for this in input model)
         var def = generateModelDefinition(path.schema, newdefinitionName);
         defs[newdefinitionName] = def;
       }
@@ -433,7 +401,7 @@ var decorator = module.exports = function () {
 	  return controller;
 	}
 	
-    var modelName = capitalize(controller.model().singular());
+    var modelName = utils.capitalize(controller.model().singular());
 
     controller.swagger2 = { paths: {}, definitions: {} };
 

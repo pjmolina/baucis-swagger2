@@ -1,21 +1,10 @@
 // __Dependencies__
-var url = require('url');
-var deco = require('deco');
+var utils = require('./utils');
 
 // __Private Module Members__
 
 //Follows Swagger 2.0: as described in https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md
 
-// A method for capitalizing the first letter of a string
-function capitalize (s) {
-  if (!s) { 
-    return s; 
-  }
-  if (s.length === 1) {
-    return s.toUpperCase();
-  }
-  return s[0].toUpperCase() + s.substring(1);
-}
 
 // Figure out the basePath for Swagger API definition
 function getBase (request, extra) {
@@ -47,25 +36,24 @@ function buildTags(options) {
   options.controllers.forEach(function (controller) {
     tags.push({
       name: controller.model().singular(),
-      description: capitalize(controller.model().singular()) + ' resource.',
+      description: utils.capitalize(controller.model().singular()) + ' resource.',
 	  'x-resource': true //custom extension to state this tag represent a resource
     });
   });
   return tags;
 }
+/* TODO. Move general params to a unique point of definition accordingly to Swagger 2.0
 function getReusableParameters() {
   return [];  
 }
 function getReusableResponses() {
   return [];  
 }
-
+*/
 function buildPaths(controllers) {
   var paths = {};
   controllers.forEach(function (controller) {
-    var resourcePath = '/' + controller.model().plural();
     controller.generateSwagger2();
-
     for(var path in controller.swagger2.paths) {
       paths[path] = controller.swagger2.paths[path];
     }
@@ -75,9 +63,7 @@ function buildPaths(controllers) {
 function buildDefinitions(controllers) {
   var definitions = {};
   controllers.forEach(function (controller) {
-    var resourcePath = '/' + controller.model().plural();
     controller.generateSwagger2();
-    
     for(var def in controller.swagger2.definitions) {
       definitions[def] = controller.swagger2.definitions[def];
     }
