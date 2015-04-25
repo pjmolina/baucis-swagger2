@@ -7,7 +7,7 @@ var utils = require('./utils');
 // __Private Members__
 
 // __Module Definition__
-var decorator = module.exports = function () {
+module.exports = function () {
   var controller = this;
 
   // __Private Instance Members__
@@ -165,7 +165,7 @@ var decorator = module.exports = function () {
     return responses;
   }
 
-  function buildSecurityFor(isInstance, verb, resourceName) {
+  function buildSecurityFor() {
     var security = [];
     // TODO
     return security;
@@ -178,7 +178,7 @@ var decorator = module.exports = function () {
       //produces: ['application/json'], //if used overrides global definition
       parameters: generateParameters(isInstance, verb),
       responses: buildResponsesFor(isInstance, verb, resourceName, pluralName),
-      security: buildSecurityFor(isInstance, verb, resourceName),
+      security: buildSecurityFor(),
     };
     if (isInstance) {
       if ('get' === verb) {
