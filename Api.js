@@ -54,8 +54,11 @@ function buildPaths(controllers) {
   var paths = {};
   controllers.forEach(function (controller) {
     controller.generateSwagger2();
-    for (var path in controller.swagger2.paths) {
-      paths[path] = controller.swagger2.paths[path];
+    var collection = controller.swagger2.paths;
+    for (var path in collection) {
+      if (collection.hasOwnProperty(path)) {
+        paths[path] = collection[path];
+      }
     }
   });
   return paths;
@@ -64,8 +67,11 @@ function buildDefinitions(controllers) {
   var definitions = {};
   controllers.forEach(function (controller) {
     controller.generateSwagger2();
-    for (var def in controller.swagger2.definitions) {
-      definitions[def] = controller.swagger2.definitions[def];
+    var collection = controller.swagger2.definitions;
+    for (var def in collection) {
+      if (collection.hasOwnProperty(path)) {
+        definitions[def] = collection[def];
+      }
     }
     definitions.ErrorModel = generateErrorModelDefinition();
   });
