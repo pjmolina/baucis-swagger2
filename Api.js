@@ -69,7 +69,7 @@ function buildDefinitions(controllers) {
     controller.generateSwagger2();
     var collection = controller.swagger2.definitions;
     for (var def in collection) {
-      if (collection.hasOwnProperty(path)) {
+      if (collection.hasOwnProperty(def)) {
         definitions[def] = collection[def];
       }
     }
