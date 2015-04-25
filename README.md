@@ -1,6 +1,8 @@
 baucis-swagger2
 ===============
 
+[![Dependency Status](https://david-dm.org/icinetic/baucis-swagger2.svg)](https://david-dm.org/icinetic/baucis-swagger2)
+
 This module generates customizable swagger 2.0 definitions for your Baucis API.  
 Use this module in conjunction with [Baucis](https://github.com/wprl/baucis).
 
