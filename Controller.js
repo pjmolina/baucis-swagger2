@@ -12,94 +12,92 @@ module.exports = function () {
 
   // __Private Instance Members__
 
-  // Generate parameter list for operations
-  function generateParameters(isInstance, verb) {
-    var parameters = [];
-
-    // Parameters available for singular routes
-    if (isInstance) {
-      parameters.push({
+  function getParamId() {
+    return {
         name: 'id',
         in: 'path',
         description: 'The ID of a ' + controller.model().singular() +'.',
         type: 'string',
         required: true
-      });
-
-      parameters.push({
+      };
+  }
+  function getParamXBaucisUpdateOperator() {
+    return {
         name: 'X-Baucis-Update-Operator',
         in: 'header',
         description: '**BYPASSES VALIDATION** May be used with PUT to update the document using $push, $pull, or $set.',
         type: 'string',
         required: false
-      });
-    }
-
-    // Parameters available for plural routes
-    if (!isInstance) {
-      parameters.push({
+      };
+  }
+  function getParamSkip() {
+    return {
         name: 'skip',
         in: 'query',
         description: 'How many documents to skip.',
         type: 'integer',
         format: 'int32',
         required: false
-      });
-
-      parameters.push({
+      };
+  }
+  function getParamLimit() {
+    return {
         name: 'limit',
         in: 'query',
         description: 'The maximum number of documents to send.',
         type: 'integer',
         format: 'int32',
         required: false
-      });
-
-      parameters.push({
+      };
+  }
+  function getParamCount() {
+    return {
         name: 'count',
         in: 'query',
         description: 'Set to true to return count instead of documents.',
         type: 'boolean',
         required: false
-      });
-
-      parameters.push({
+      };
+  }
+  function getParamConditions() {
+    return {
         name: 'conditions',
         in: 'query',
         description: 'Set the conditions used to find or remove the document(s).',
         type: 'string',
         required: false
-      });
-
-      parameters.push({
+      };
+  }
+  function getParamSort() {
+    return {
         name: 'sort',
         in: 'query',
         description: 'Set the fields by which to sort.',
         type: 'string',
         required: false
-      });
-    }
-
-    // Parameters available for singular and plural routes
-    parameters.push({
+      };
+  }
+  function getParamSelect() {
+    return {
       name: 'select',
       in: 'query',
       description: 'Select which paths will be returned by the query.',
       type: 'string',
       required: false
-    });
-
-    parameters.push({
+    };
+  }  
+  function getParamPopulate() {
+    return {
       name: 'populate',
       in: 'query',
       description: 'Specify which paths to populate.',
       type: 'string',
       required: false
-    });
-
-    if (verb === 'post') {
-      // TODO post body can be single or array
-      parameters.push({
+    };
+  }  
+  function getParamDocumentPost() {
+    // TODO post body can be single or array
+    return {
         name: 'document',
         in: 'body',
         description: 'Create a document by sending the paths to be updated in the request body.',
@@ -107,11 +105,10 @@ module.exports = function () {
           $ref: '#/definitions/' + utils.capitalize(controller.model().singular()),
         }, 
         required: true
-      });
-    }
-
-    if (verb === 'put') {
-      parameters.push({
+      };
+  }  
+  function getParamDocumentPut() {
+    return {
         name: 'document',
         in: 'body',
         description: 'Update a document by sending the paths to be updated in the request body.',
@@ -119,9 +116,33 @@ module.exports = function () {
           $ref: '#/definitions/' + utils.capitalize(controller.model().singular()),
         }, 
         required: true
-      });
+      };
+  }  
+  // Generate parameter list for operations
+  function generateParameters(isInstance, verb) {
+    var parameters = [];
+    // Parameters available for singular and plural routes
+    parameters.push(getParamSelect());
+    parameters.push(getParamPopulate());
+    // Parameters available for singular routes
+    if (isInstance) {
+      parameters.push(getParamId());
+      parameters.push(getParamXBaucisUpdateOperator());
     }
-
+    // Parameters available for plural routes
+    if (!isInstance) {
+      parameters.push(getParamSkip());
+      parameters.push(getParamLimit());
+      parameters.push(getParamCount());
+      parameters.push(getParamConditions());
+      parameters.push(getParamSort());
+    }
+    if (verb === 'post') {
+      parameters.push(getParamDocumentPost());
+    }
+    if (verb === 'put') {
+      parameters.push(getParamDocumentPut());
+    }
     return parameters;
   }
 
@@ -346,32 +367,26 @@ module.exports = function () {
 
     return property;
   }
-  
+
+  function mergePaths(definition, pathsCollection, definitionName) {
+    Object.keys(pathsCollection).forEach(function (name) {
+      var path = pathsCollection[name];
+      var property = generatePropertyDefinition(name, path, definitionName);
+      definition.properties[name] = property;
+      if (path.options.required) {
+        definition.required.push(name);
+      }
+    });
+  } 
+
   // A method used to generate a Swagger model definition for a controller
   function generateModelDefinition (schema, definitionName) {
-    var definition = {};
-
-    definition.required = [];
-    definition.properties = {};
-
-    Object.keys(schema.paths).forEach(function (name) {
-      var path = schema.paths[name];
-      var property = generatePropertyDefinition(name, path, definitionName);
-      definition.properties[name] = property;
-      if (path.options.required) {
-        definition.required.push(name);
-      }
-    });
-    
-    Object.keys(schema.virtuals).forEach(function (name) {
-      var path = schema.virtuals[name];
-      var property = generatePropertyDefinition(name, path, definitionName);
-      definition.properties[name] = property;
-      if (path.options.required) {
-        definition.required.push(name);
-      }
-    });
-
+    var definition = {
+      required: [],
+      properties: {}
+    };
+    mergePaths(definitions, schema.paths, definitionName);
+    mergePaths(definitions, schema.virtuals, definitionName);
     return definition;
   }
 
