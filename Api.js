@@ -54,7 +54,7 @@ function buildPaths(controllers) {
   var paths = {};
   controllers.forEach(function (controller) {
     controller.generateSwagger2();
-    for(var path in controller.swagger2.paths) {
+    for (var path in controller.swagger2.paths) {
       paths[path] = controller.swagger2.paths[path];
     }
   });
@@ -64,7 +64,7 @@ function buildDefinitions(controllers) {
   var definitions = {};
   controllers.forEach(function (controller) {
     controller.generateSwagger2();
-    for(var def in controller.swagger2.definitions) {
+    for (var def in controller.swagger2.definitions) {
       definitions[def] = controller.swagger2.definitions[def];
     }
     definitions.ErrorModel = generateErrorModelDefinition();
@@ -125,7 +125,7 @@ function generateResourceListingForVersion(options) {
 
 
 // __Module Definition__
-var decorator = module.exports = function (options, protect) {
+module.exports = function (options, protect) {
   var api = this;
 
   api.generateSwagger2 = function() {

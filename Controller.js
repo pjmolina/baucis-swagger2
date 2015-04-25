@@ -170,7 +170,12 @@ module.exports = function () {
     // TODO
     return security;
   }
-
+  function buildOperationInfo(res, operationId, summary, description) {
+    res.operationId = operationId;
+    res.summary = summary;
+    res.description = description;
+    return res;
+  }
   function buildBaseOperation(mode, verb, resourceName, pluralName) {
     var isInstance = (mode === 'instance');
     var res = {
@@ -182,42 +187,42 @@ module.exports = function () {
     };
     if (isInstance) {
       if ('get' === verb) {
-        res.operationId = 'getById';
-        res.summary = 'Get a ' + resourceName + ' by its unique ID';
-        res.description = 'Retrieve a ' + resourceName + ' by its ID' + '.';
-        return res;
+		return buildOperationInfo(res, 
+				   'getById',
+				   'Get a ' + resourceName + ' by its unique ID',
+				   'Retrieve a ' + resourceName + ' by its ID' + '.');
       } 
       else if ('put' === verb) {
-        res.operationId = 'update';
-        res.summary = 'Modify a ' + resourceName + ' by its unique ID';
-        res.description = 'Update an existing ' + resourceName + ' by its ID' + '.';
-        return res;
+		return buildOperationInfo(res, 
+				   'update',
+				   'Modify a ' + resourceName + ' by its unique ID',
+				   'Update an existing ' + resourceName + ' by its ID' + '.');
       }    
       else if ('delete' === verb) {
-        res.operationId = 'deleteById';
-        res.summary = 'Delete a ' + resourceName + ' by its unique ID';
-        res.description = 'Deletes an existing ' + resourceName + ' by its ID' + '.';        
-        return res;
+		return buildOperationInfo(res, 
+				   'deleteById',
+				   'Delete a ' + resourceName + ' by its unique ID',
+				   'Deletes an existing ' + resourceName + ' by its ID' + '.');
       }        
     } else {
       //collection
       if ('get' === verb) {
-        res.operationId = 'query';
-        res.summary = 'Query some ' + pluralName;
-        res.description = 'Query over ' + pluralName + '.';        
-        return res;
+		return buildOperationInfo(res, 
+				   'query',
+				   'Query some ' + pluralName,
+				   'Query over ' + pluralName + '.');
       } 
       else if ('post' === verb) {
-        res.operationId = 'create';
-        res.summary = 'Create some ' + pluralName;
-        res.description = 'Create one or more ' + pluralName + '.';            
-        return res;
+		return buildOperationInfo(res, 
+				   'create',
+				   'Create some ' + pluralName,
+				   'Create one or more ' + pluralName + '.');
       }    
       else if ('delete' === verb) {
-        res.operationId = 'deleteByQuery';
-        res.summary = 'Delete some ' + pluralName + ' by query';
-        res.description = 'Delete all ' + pluralName + ' matching the specified query.';        
-        return res;
+		return buildOperationInfo(res, 
+				   'deleteByQuery',
+				   'Delete some ' + pluralName + ' by query',
+				   'Delete all ' + pluralName + ' matching the specified query.');
       }      
     }
     return res;
@@ -263,7 +268,7 @@ module.exports = function () {
     return null;
   }
   // A method used to generated a Swagger property for a model
-  function generatePropertyDefinition (name, path, definitionName) {
+  function generatePropertyDefinition(name, path, definitionName) {
     var property = {};
     var select = controller.select();
     var type = path.options.type ? swagger20TypeFor(path.options.type) : 'string'; // virtuals don't have type
@@ -320,16 +325,13 @@ module.exports = function () {
     if (path.enumValues && path.enumValues.length > 0) {
       // TODO:  property.allowableValues = { valueType: 'LIST', values: path.enumValues };
     }
-
     // Set allowable values range if min or max is present
     if (!isNaN(path.options.min) || !isNaN(path.options.max)) {
       // TODO: property.allowableValues = { valueType: 'RANGE' };
     }
-
     if (!isNaN(path.options.min)) {
       // TODO: property.allowableValues.min = path.options.min;
     }
-
     if (!isNaN(path.options.max)) {
       // TODO: property.allowableValues.max = path.options.max;
     }
