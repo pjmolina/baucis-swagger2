@@ -110,6 +110,6 @@ Contact
 -------
 
  * http://www.icinetic.com
- * @icinetic @theappnow @pmolinam
+ * [@icinetic](https://twitter.com/icinetic) [@theappnow](https://twitter.com/theappnow) [@pmolinam](https://twitter.com/pmolinam)
 
 &copy; 2014-2015 Icinetic
