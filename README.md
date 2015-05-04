@@ -57,7 +57,7 @@ Use the `swagger2` member of the controller to extend `paths` and `definitions` 
 ```javascript
 controller.generateSwagger2();
 controller.swagger2.paths.xyz = '123';
-controller.swagger2.defintions.xyz = {};
+controller.swagger2.definitions.xyz = {};
 ```
 
 Or use the `swagger2Document` of the baucis instance module to access and modify dirrecty the full swagger document after calling generateSwagger() on the API.
