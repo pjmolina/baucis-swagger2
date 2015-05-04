@@ -66,7 +66,7 @@ Or use the `swagger2Document` of the baucis instance module to access and modify
 var baucisInstance = baucis();
 
 //generate standard template for Swagger 2
-baucisInstance.generateSwagger();
+baucisInstance.generateSwagger2();
 //extend Swagger2 definitions
 baucisInstance.swagger2Document.info.title = "myApi";
 baucisInstance.swagger2Document.host = "api.weylandindustries.com:5000";
