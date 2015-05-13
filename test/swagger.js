@@ -62,18 +62,18 @@ describe('Swagger 2.0 Resources', function () {
         expect(pathInstance0.delete).to.be.an(Object);
 
         expect(pathInstance0.get.tags).to.be.an(Array);
-        expect(pathInstance0.get.operationId).to.be('getById');
+        expect(pathInstance0.get.operationId).to.be('getVegetableById');
         expect(pathInstance0.get.summary).to.be('Get a vegetable by its unique ID');
         expect(pathInstance0.get.description).to.be('Retrieve a vegetable by its ID.');
         expect(pathInstance0.get.parameters).to.be.an(Array);
         expect(pathInstance0.get.responses).to.be.an(Object);
         expect(pathInstance0.get.security).to.be.an(Array);
 
-        expect(pathInstance0.put.operationId).to.be('update');
+        expect(pathInstance0.put.operationId).to.be('updateVegetable');
         expect(pathInstance0.put.summary).to.be('Modify a vegetable by its unique ID');
         expect(pathInstance0.put.description).to.be('Update an existing vegetable by its ID.');
 
-        expect(pathInstance0.delete.operationId).to.be('deleteById');
+        expect(pathInstance0.delete.operationId).to.be('deleteVegetableById');
         expect(pathInstance0.delete.summary).to.be('Delete a vegetable by its unique ID');
         expect(pathInstance0.delete.description).to.be('Deletes an existing vegetable by its ID.');
 
@@ -85,18 +85,18 @@ describe('Swagger 2.0 Resources', function () {
         expect(pathCollection0.delete).to.be.an(Object);
 
         expect(pathCollection0.get.tags).to.be.an(Array);
-        expect(pathCollection0.get.operationId).to.be('query');
+        expect(pathCollection0.get.operationId).to.be('queryVegetable');
         expect(pathCollection0.get.summary).to.be('Query some vegetables');
         expect(pathCollection0.get.description).to.be('Query over vegetables.');
         expect(pathCollection0.get.parameters).to.be.an(Array);
         expect(pathCollection0.get.responses).to.be.an(Object);
         expect(pathCollection0.get.security).to.be.an(Array);
 
-        expect(pathCollection0.post.operationId).to.be('create');
+        expect(pathCollection0.post.operationId).to.be('createVegetable');
         expect(pathCollection0.post.summary).to.be('Create some vegetables');
         expect(pathCollection0.post.description).to.be('Create one or more vegetables.');
         
-        expect(pathCollection0.delete.operationId).to.be('deleteByQuery');
+        expect(pathCollection0.delete.operationId).to.be('deleteVegetableByQuery');
         expect(pathCollection0.delete.summary).to.be('Delete some vegetables by query');
         expect(pathCollection0.delete.description).to.be('Delete all vegetables matching the specified query.');
 
@@ -123,7 +123,7 @@ describe('Swagger 2.0 Resources', function () {
 
         expect(pathCollection0.get).to.be.an(Object);
         expect(pathCollection0.get.tags).to.be.an(Array);
-        expect(pathCollection0.get.operationId).to.be('query');
+        expect(pathCollection0.get.operationId).to.be('queryVegetable');
         expect(pathCollection0.get.summary).to.be('Query some vegetables');
         expect(pathCollection0.get.description).to.be('Query over vegetables.');
         expect(pathCollection0.get.parameters).to.be.an(Array);
@@ -147,13 +147,40 @@ describe('Swagger 2.0 Resources', function () {
         var pathCollection0 = body.paths['/vegetables'];  
         expect(pathCollection0).to.be.an(Object);
         expect(pathCollection0.post).to.be.an(Object);
-        expect(pathCollection0.post.operationId).to.be('create');
+        expect(pathCollection0.post.operationId).to.be('createVegetable');
         expect(pathCollection0.post.summary).to.be('Create some vegetables');
         expect(pathCollection0.post.description).to.be('Create one or more vegetables.');
 
         done();
       });
     });
+	
+	it('should generate unique names per operationId', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        expect(response).to.have.property('statusCode', 200);
+
+        var pathCollection0 = body.paths['/vegetables'];  
+        expect(pathCollection0.post.operationId).to.be('createVegetable');
+        expect(pathCollection0.delete.operationId).to.be('deleteVegetableByQuery');
+        expect(pathCollection0.get.operationId).to.be('queryVegetable');
+
+		var pathInstance0 = body.paths['/vegetables/{id}'];  
+        expect(pathInstance0.put.operationId).to.be('updateVegetable');
+        expect(pathInstance0.delete.operationId).to.be('deleteVegetableById');
+        expect(pathInstance0.get.operationId).to.be('getVegetableById');
+
+
+        done();
+      });
+    });
+	
+	
     it('should generate the correct DELETE /vegetables operation', function (done) {
       var options = {
         url: 'http://127.0.0.1:8012/api/swagger.json',
@@ -168,7 +195,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(pathCollection0).to.be.an(Object);
 
         expect(pathCollection0.delete).to.be.an(Object);
-        expect(pathCollection0.delete.operationId).to.be('deleteByQuery');
+        expect(pathCollection0.delete.operationId).to.be('deleteVegetableByQuery');
         expect(pathCollection0.delete.summary).to.be('Delete some vegetables by query');
         expect(pathCollection0.delete.description).to.be('Delete all vegetables matching the specified query.');
 
@@ -192,7 +219,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(pathInstance0.get).to.be.an(Object);
 
         expect(pathInstance0.get.tags).to.be.an(Array);
-        expect(pathInstance0.get.operationId).to.be('getById');
+        expect(pathInstance0.get.operationId).to.be('getVegetableById');
         expect(pathInstance0.get.summary).to.be('Get a vegetable by its unique ID');
         expect(pathInstance0.get.description).to.be('Retrieve a vegetable by its ID.');
         expect(pathInstance0.get.parameters).to.be.an(Array);
@@ -218,7 +245,7 @@ describe('Swagger 2.0 Resources', function () {
 
         expect(pathInstance0.put).to.be.an(Object);
 
-        expect(pathInstance0.put.operationId).to.be('update');
+        expect(pathInstance0.put.operationId).to.be('updateVegetable');
         expect(pathInstance0.put.summary).to.be('Modify a vegetable by its unique ID');
         expect(pathInstance0.put.description).to.be('Update an existing vegetable by its ID.');
 
@@ -238,7 +265,7 @@ describe('Swagger 2.0 Resources', function () {
         var pathInstance0 = body.paths['/vegetables/{id}'];  
         expect(pathInstance0).to.be.an(Object);
 
-        expect(pathInstance0.delete.operationId).to.be('deleteById');
+        expect(pathInstance0.delete.operationId).to.be('deleteVegetableById');
         expect(pathInstance0.delete.summary).to.be('Delete a vegetable by its unique ID');
         expect(pathInstance0.delete.description).to.be('Deletes an existing vegetable by its ID.');
 

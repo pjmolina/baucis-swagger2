@@ -190,6 +190,7 @@ module.exports = function () {
   }
   function buildBaseOperation(mode, verb, resourceName, pluralName) {
     var isInstance = (mode === 'instance');
+	var resourceKey = utils.capitalize(resourceName);
     var res = {
       //consumes: ['application/json'], //if used overrides global definition
       //produces: ['application/json'], //if used overrides global definition
@@ -200,19 +201,19 @@ module.exports = function () {
     if (isInstance) {
       if ('get' === verb) {
 		return buildOperationInfo(res, 
-				   'getById',
+				   'get' + resourceKey + 'ById',
 				   'Get a ' + resourceName + ' by its unique ID',
 				   'Retrieve a ' + resourceName + ' by its ID' + '.');
       } 
       else if ('put' === verb) {
 		return buildOperationInfo(res, 
-				   'update',
+				   'update' + resourceKey,
 				   'Modify a ' + resourceName + ' by its unique ID',
 				   'Update an existing ' + resourceName + ' by its ID' + '.');
       }    
       else if ('delete' === verb) {
 		return buildOperationInfo(res, 
-				   'deleteById',
+				   'delete' + resourceKey + 'ById',
 				   'Delete a ' + resourceName + ' by its unique ID',
 				   'Deletes an existing ' + resourceName + ' by its ID' + '.');
       }        
@@ -220,19 +221,19 @@ module.exports = function () {
       //collection
       if ('get' === verb) {
 		return buildOperationInfo(res, 
-				   'query',
+				   'query' + resourceKey,
 				   'Query some ' + pluralName,
 				   'Query over ' + pluralName + '.');
       } 
       else if ('post' === verb) {
 		return buildOperationInfo(res, 
-				   'create',
+				   'create' + resourceKey,
 				   'Create some ' + pluralName,
 				   'Create one or more ' + pluralName + '.');
       }    
       else if ('delete' === verb) {
 		return buildOperationInfo(res, 
-				   'deleteByQuery',
+				   'delete' + resourceKey + 'ByQuery',
 				   'Delete some ' + pluralName + ' by query',
 				   'Delete all ' + pluralName + ' matching the specified query.');
       }      
