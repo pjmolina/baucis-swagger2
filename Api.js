@@ -80,8 +80,11 @@ function buildDefinitions(controllers) {
 
 // A method for generating a Swagger resource listing
 function generateResourceListing (options) {
-  var paths = buildPaths(options.controllers);
-  var definitions = buildDefinitions(options.controllers);
+  var controllers = options.controllers;
+  var opts = options.options || {};
+  
+  var paths = buildPaths(controllers);
+  var definitions = buildDefinitions(controllers);
 
   var listing = {
     swagger: '2.0',
@@ -108,10 +111,17 @@ function generateResourceListing (options) {
     definitions: definitions,
     //parameters: getReusableParameters(),
     //responses: getReusableResponses(),
-    securityDefinitions: {},
-    security: []    
+    //securityDefinitions: {},
+    //security: []  // Must be added via extensions
     //externalDocs: null
   };
+  
+  if (opts.security) {
+    listing.security = opts.security;	  
+  }
+  if (opts.securityDefinitions) {
+    listing.securityDefinitions = opts.securityDefinitions;	  
+  }
 
   return listing;
 }
@@ -139,7 +149,8 @@ module.exports = function (options, protect) {
     api.swagger2Document = generateResourceListing({
       version: null,
       controllers: protect.controllers('0.0.1'),
-      basePath: null
+      basePath: null,
+	  options: options
     });
     return api;
   };
@@ -154,7 +165,8 @@ module.exports = function (options, protect) {
       rootDocument: api.swagger2Document,
       version: request.baucis.release,
       controllers: protect.controllers(request.baucis.release),
-      basePath: getBase(request, 1)
+      basePath: getBase(request, 1),
+	  options: options
     });
 
     response.json(versionedApi);

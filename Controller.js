@@ -177,10 +177,8 @@ module.exports = function () {
     return responses;
   }
 
-  function buildSecurityFor() {
-    var security = [];
-    // TODO
-    return security;
+  function buildSecurityFor() {	
+    return null; //no security defined
   }
   function buildOperationInfo(res, operationId, summary, description) {
     res.operationId = operationId;
@@ -195,9 +193,12 @@ module.exports = function () {
       //consumes: ['application/json'], //if used overrides global definition
       //produces: ['application/json'], //if used overrides global definition
       parameters: generateParameters(isInstance, verb),
-      responses: buildResponsesFor(isInstance, verb, resourceName, pluralName),
-      security: buildSecurityFor(),
+      responses: buildResponsesFor(isInstance, verb, resourceName, pluralName)
     };
+	var sec = buildSecurityFor();
+	if (sec) {
+		res.security = sec;
+	}
     if (isInstance) {
       if ('get' === verb) {
 		return buildOperationInfo(res, 
@@ -409,14 +410,17 @@ module.exports = function () {
   }
 
   // __Build the Definition__
-  controller.generateSwagger2 = function () {
+  controller.generateSwagger2 = function () {	
     if (controller.swagger2) {
 	  return controller;
 	}
 	
     var modelName = utils.capitalize(controller.model().singular());
 
-    controller.swagger2 = { paths: {}, definitions: {} };
+    controller.swagger2 = { 
+		paths: {}, 
+		definitions: {}
+	};
 
     // Add Resource Model
     controller.swagger2.definitions[modelName] = generateModelDefinition(controller.model().schema, modelName);

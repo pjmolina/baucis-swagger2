@@ -67,7 +67,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(pathInstance0.get.description).to.be('Retrieve a vegetable by its ID.');
         expect(pathInstance0.get.parameters).to.be.an(Array);
         expect(pathInstance0.get.responses).to.be.an(Object);
-        expect(pathInstance0.get.security).to.be.an(Array);
+        expect(pathInstance0.get.security).to.be(undefined);
 
         expect(pathInstance0.put.operationId).to.be('updateVegetable');
         expect(pathInstance0.put.summary).to.be('Modify a vegetable by its unique ID');
@@ -90,7 +90,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(pathCollection0.get.description).to.be('Query over vegetables.');
         expect(pathCollection0.get.parameters).to.be.an(Array);
         expect(pathCollection0.get.responses).to.be.an(Object);
-        expect(pathCollection0.get.security).to.be.an(Array);
+        expect(pathCollection0.get.security).to.be(undefined);
 
         expect(pathCollection0.post.operationId).to.be('createVegetable');
         expect(pathCollection0.post.summary).to.be('Create some vegetables');
@@ -103,8 +103,23 @@ describe('Swagger 2.0 Resources', function () {
         done();
       });
     }); 
+	
+	it('should generate no security info (to be added by customization)', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
 
-  });
+        expect(response).to.have.property('statusCode', 200);
+		expect(body).to.have.property('swagger', '2.0');
+        expect(body.security).to.be(undefined);
+        expect(body.securityDefinitions).to.be(undefined);
+		done();
+      });
+    }); 
+  }); 
 
   describe('paths', function () {
 
@@ -128,7 +143,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(pathCollection0.get.description).to.be('Query over vegetables.');
         expect(pathCollection0.get.parameters).to.be.an(Array);
         expect(pathCollection0.get.responses).to.be.an(Object);
-        expect(pathCollection0.get.security).to.be.an(Array);
+        expect(pathCollection0.get.security).to.be(undefined);
 
         done();
       });
@@ -224,7 +239,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(pathInstance0.get.description).to.be('Retrieve a vegetable by its ID.');
         expect(pathInstance0.get.parameters).to.be.an(Array);
         expect(pathInstance0.get.responses).to.be.an(Object);
-        expect(pathInstance0.get.security).to.be.an(Array);
+        expect(pathInstance0.get.security).to.be(undefined);
 
         done();
       });
@@ -873,12 +888,11 @@ describe('Swagger 2.0 Resources', function () {
 
   });
 
-
   describe('pending - todo', function() {
       it('define parameters only once and use references to use them per operations.');
       it('enum values');
-      it('securityDefinitions is generated');
-      it('security is generated');
+      it('securityDefinitions is generated - via customization');
+      it('security is generated - via customization');
       it('does not crash when a Mixed type is used');
   });
     
