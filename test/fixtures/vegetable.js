@@ -29,9 +29,20 @@ var Goose = new Schema({
   stuffed: [Stuffing]
 });
 
+var ChargeArea = new Schema({
+  name: { type: String, required: true },
+  clusters: [ { type: Schema.Types.ObjectId, ref: 'ChargeCluster' } ]
+});
+var ChargeCluster = new Schema({
+  name: { type: String, required: true }
+});
+
 mongoose.model('vegetable', Vegetable);
 mongoose.model('fungus', Fungus).plural('fungi');
 mongoose.model('goose', Goose).plural('geese');
+
+mongoose.model('chargeCluster', ChargeCluster);
+mongoose.model('chargeArea', ChargeArea);
 
 // __Module Definition__
 var fixture = module.exports = {
@@ -49,7 +60,9 @@ var fixture = module.exports = {
     
     baucis.rest('fungus').select('-hyphenated-field-name -password');
     baucis.rest('goose');
-
+	baucis.rest('chargeArea');
+	baucis.rest('chargeCluster');
+	
     app = express();
 
     var baucisInstance = baucis(); 

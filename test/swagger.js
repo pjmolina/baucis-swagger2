@@ -26,7 +26,7 @@ describe('Swagger 2.0 Resources', function () {
       };
       request.get(options, function (err, response, body) {
         if (err) return done(err);
-
+		
         expect(response).to.have.property('statusCode', 200);
         expect(body.info).to.have.property('version', '0.0.1');
         expect(body).to.have.property('swagger', '2.0');
@@ -847,8 +847,7 @@ describe('Swagger 2.0 Resources', function () {
 
   });
   
-  describe('misc', function() {
-
+  describe('arrays', function() {
     it('recognizes Mongo array type', function (done) {
       var options = {
         url: 'http://127.0.0.1:8012/api/swagger.json',
@@ -869,6 +868,32 @@ describe('Swagger 2.0 Resources', function () {
         done();
       });
     });
+	
+	it('recognizes array of ObjectId exposing IDs as string', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+		//credits to https://github.com/mdhooge for providing the repro-sample
+        expect(body.definitions).to.have.property('ChargeArea');
+        expect(body.definitions).to.have.property('ChargeCluster');
+
+        expect(body.definitions.ChargeArea.properties).to.have.property('clusters');
+        expect(body.definitions.ChargeArea.properties.clusters.type).to.be('array');
+        expect(body.definitions.ChargeArea.properties.clusters).to.have.property('items');
+        expect(body.definitions.ChargeArea.properties.clusters.items).to.have.property('$ref');
+        expect(body.definitions.ChargeArea.properties.clusters.items.$ref).to.be('string'); //ids refs -> string
+         
+        done();
+      });
+    });
+
+  });
+  
+  describe('misc', function() {
 
     it('adds virtuals as model properties', function (done) {
       var options = {

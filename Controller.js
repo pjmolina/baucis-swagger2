@@ -333,11 +333,18 @@ module.exports = function () {
     }
     else {
       property.type = type;
+	  if ('array' === type) {
+	    if (isArrayOfRefs(path.options.type)) {
+		  property.items = {
+		    $ref: 'string'  //handle references as string (serialization for objectId)
+		  };    
+		}
+	  }
       var format = swagger20TypeFormatFor(path.options.type);
       if (format) {
         property.format = format;
       }
-      if ("__v" === name) {
+      if ('__v' === name) {
         property.format = 'int32';
       }           
     }
@@ -364,6 +371,10 @@ module.exports = function () {
     }
     return property;
   }
+  function isArrayOfRefs(type) {
+	return (type && type.length > 0 && type[0].ref && 
+	        type[0].type && type[0].type.name === 'ObjectId'); 
+  }  
   function warnInvalidType(name, path) {
     console.log('Warning: That field type is not yet supported in baucis Swagger definitions, using "string."');
     console.log('Path name: %s.%s', utils.capitalize(controller.model().singular()), name);
