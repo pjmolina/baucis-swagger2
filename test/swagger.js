@@ -863,6 +863,8 @@ describe('Swagger 2.0 Resources', function () {
         expect(body.definitions).to.have.property('GooseStuffed');
         expect(body.definitions.Goose.properties).to.have.property('stuffed');
         expect(body.definitions.Goose.properties.stuffed.type).to.be('array');
+        expect(body.definitions.Goose.properties.stuffed.items).to.have.property('$ref');
+        expect(body.definitions.Goose.properties.stuffed.items.$ref).to.be('#/definitions/GooseStuffed');
         
         done();
       });
