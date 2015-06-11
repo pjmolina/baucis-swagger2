@@ -313,7 +313,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(Object.keys(body.definitions.Vegetable.properties).length).to.be(5);
 
         expect(body.definitions.Fungus).to.be.an(Object);
-        expect(body.definitions.Fungus.required.length).to.be(0);
+        expect(body.definitions.Fungus.required).to.be(undefined);
         expect(body.definitions.Fungus.properties.dork.type).to.be('boolean');
         expect(body.definitions.Fungus.properties._id.type).to.be('string');
         expect(body.definitions.Fungus.properties.__v.type).to.be('number');
@@ -322,7 +322,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(Object.keys(body.definitions.Fungus.properties).length).to.be(4);
 
         expect(body.definitions.Goose).to.be.an(Object);
-        expect(body.definitions.Goose.required.length).to.be(0);
+        expect(body.definitions.Goose.required).to.be(undefined);
         expect(body.definitions.Goose.properties.cooked.type).to.be('boolean');
         expect(body.definitions.Goose.properties.stuffed.type).to.be('array');
         expect(body.definitions.Goose.properties.stuffed.items.$ref).to.be('#/definitions/GooseStuffed');
@@ -333,7 +333,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(Object.keys(body.definitions.Goose.properties).length).to.be(5);
 
         expect(body.definitions.GooseStuffed).to.be.an(Object);
-        expect(body.definitions.GooseStuffed.required.length).to.be(0);
+        expect(body.definitions.GooseStuffed.required).to.be(undefined);
         expect(body.definitions.GooseStuffed.properties.bread.type).to.be('boolean');
         expect(body.definitions.GooseStuffed.properties._id.type).to.be('string');
         expect(body.definitions.GooseStuffed.properties.id.type).to.be('string');

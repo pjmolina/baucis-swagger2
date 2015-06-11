@@ -400,6 +400,14 @@ module.exports = function () {
     };
     mergePaths(definition, schema.paths, definitionName);
     mergePaths(definition, schema.virtuals, definitionName);
+	
+	//remove empty arrays -> swagger 2.0 validates 
+	if (definition.required.length === 0) {
+		delete(definition.required)
+	}
+	if (definition.properties.length === 0) {
+		delete(definition.properties)
+	}
     return definition;
   }
 
