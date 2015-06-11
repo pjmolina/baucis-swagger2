@@ -55,7 +55,19 @@ var fixture = module.exports = {
     //forbiden extension
     fixture.controller.swagger2.lambic = 'kriek';
     //allowed on extensions points for controllers (paths & defintions)
-    fixture.controller.swagger2.paths.starkTrek = 'enterprise';
+    fixture.controller.swagger2.paths['/starkTrek'] = {
+		get: {
+			operationId: 'enterprise',
+			responses: {
+				"200": {
+					"description": "Sucessful response.",
+					"schema": {
+						"$ref": "#/definitions/Vegetable"
+					}
+				}
+			}
+		}
+	};
     fixture.controller.swagger2.definitions.Spook = {};
     
     baucis.rest('fungus').select('-hyphenated-field-name -password');

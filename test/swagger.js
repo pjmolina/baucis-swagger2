@@ -27,6 +27,8 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 		
+		console.log(JSON.stringify(body, null, 2));
+		
         expect(response).to.have.property('statusCode', 200);
         expect(body.info).to.have.property('version', '0.0.1');
         expect(body).to.have.property('swagger', '2.0');
@@ -389,7 +391,8 @@ describe('Swagger 2.0 Resources', function () {
         expect(body).to.not.have.property('lambic');
 
         //allowed extensions
-        expect(body.paths.starkTrek).to.be('enterprise');
+        expect(body.paths['/starkTrek']).to.be.an(Object);
+        expect(body.paths['/starkTrek'].get.operationId).to.be('enterprise');
         expect(body.definitions.Spook).to.be.an(Object);
 
         done();
