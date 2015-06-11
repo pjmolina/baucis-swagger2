@@ -147,7 +147,7 @@ module.exports = function () {
     responses.default = {
       description: 'Unexpected error.',
       schema: {
-        '$ref': '#/definitions/Error'
+        '$ref': '#/definitions/ErrorModel'
       }
     };
     responses['200'] = {
@@ -163,14 +163,14 @@ module.exports = function () {
                         'No ' + resourceName + ' was found with that ID.' :
                         'No ' + pluralName + ' matched that query.',
       schema: {
-        '$ref': '#/definitions/Error'
+        '$ref': '#/definitions/ErrorModel'
       }
     };
     if (verb === 'put' || verb==='post' || verb==='patch') {
       responses['422'] = {
         description: 'Validation error.',
         schema: {
-          '$ref': '#/definitions/Error'
+          '$ref': '#/definitions/ErrorModel'
         }
       };
     }
