@@ -26,9 +26,7 @@ describe('Swagger 2.0 Resources', function () {
       };
       request.get(options, function (err, response, body) {
         if (err) return done(err);
-		
-		console.log(JSON.stringify(body, null, 2));
-		
+				
         expect(response).to.have.property('statusCode', 200);
         expect(body.info).to.have.property('version', '0.0.1');
         expect(body).to.have.property('swagger', '2.0');
