@@ -869,8 +869,42 @@ describe('Swagger 2.0 Resources', function () {
         done();
       });
     });
+
+    it('recognizes array of literals - string', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        expect(body.definitions.ChargeArea.properties).to.have.property('tags');
+        expect(body.definitions.ChargeArea.properties.tags.type).to.be('array');
+        expect(body.definitions.ChargeArea.properties.tags.items).to.have.property('type');
+        expect(body.definitions.ChargeArea.properties.tags.items.type).to.be('string');
+        
+        done();
+      });
+    });
+
+     it('recognizes array of literals - number', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        expect(body.definitions.ChargeArea.properties).to.have.property('orders');
+        expect(body.definitions.ChargeArea.properties.orders.type).to.be('array');
+        expect(body.definitions.ChargeArea.properties.orders.items).to.have.property('type');
+        expect(body.definitions.ChargeArea.properties.orders.items.type).to.be('number');
+        
+        done();
+      });
+    });
 	
-	it('recognizes array of ObjectId exposing IDs as string', function (done) {
+    it('recognizes array of ObjectId exposing IDs as string', function (done) {
       var options = {
         url: 'http://127.0.0.1:8012/api/swagger.json',
         json: true

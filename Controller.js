@@ -339,6 +339,19 @@ module.exports = function () {
   		    $ref: 'string'  //handle references as string (serialization for objectId)
   		  };    
   		}
+      else {
+        var resolvedType = referenceForType(path.options.type); 
+        if (resolvedType.isPrimitive) {
+          property.items = {
+            type: resolvedType.type
+          };              
+        }
+        else {
+          property.items = {
+            $ref: resolvedType.type
+          };              
+        }
+      }
 	  }
       var format = swagger20TypeFormatFor(path.options.type);
       if (format) {
@@ -371,6 +384,28 @@ module.exports = function () {
     }
     return property;
   }
+  function referenceForType(type) {
+    if (type && type.length>0 && type[0]) {
+      var sw2Type = swagger20TypeFor(type[0]);
+      if (sw2Type) {
+        return {
+          isPrimitive: true,
+          type: sw2Type //primitive type
+        }
+      }
+      else {
+        return  {
+          isPrimitive: false,
+          type: '#/definitions/' + type[0].name //not primitive: asume complex type def and reference
+        };        
+      }
+    }
+    return {
+      isPrimitive: true,
+      type: 'string'
+    }; //No info provided
+  }
+
   function isArrayOfRefs(type) {
 	return (type && type.length > 0 && type[0].ref && 
 	        type[0].type && type[0].type.name === 'ObjectId'); 

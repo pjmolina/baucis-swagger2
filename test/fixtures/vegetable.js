@@ -31,6 +31,8 @@ var Goose = new Schema({
 
 var ChargeArea = new Schema({
   name: { type: String, required: true },
+  tags: { type: [String], required: false },
+  orders: { type: [Number], required: false },
   clusters: [ { type: Schema.Types.ObjectId, ref: 'ChargeCluster' } ]
 });
 var ChargeCluster = new Schema({
