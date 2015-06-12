@@ -335,10 +335,10 @@ module.exports = function () {
       property.type = type;
 	  if ('array' === type) {
 	    if (isArrayOfRefs(path.options.type)) {
-		  property.items = {
-		    $ref: 'string'  //handle references as string (serialization for objectId)
-		  };    
-		}
+  		  property.items = {
+  		    $ref: 'string'  //handle references as string (serialization for objectId)
+  		  };    
+  		}
 	  }
       var format = swagger20TypeFormatFor(path.options.type);
       if (format) {
@@ -401,13 +401,13 @@ module.exports = function () {
     mergePaths(definition, schema.paths, definitionName);
     mergePaths(definition, schema.virtuals, definitionName);
 	
-	//remove empty arrays -> swagger 2.0 validates 
-	if (definition.required.length === 0) {
-		delete(definition.required)
-	}
-	if (definition.properties.length === 0) {
-		delete(definition.properties)
-	}
+    //remove empty arrays -> swagger 2.0 validates 
+    if (definition.required.length === 0) {
+    	delete(definition.required)
+    }
+    if (definition.properties.length === 0) {
+    	delete(definition.properties)
+    }
     return definition;
   }
 
