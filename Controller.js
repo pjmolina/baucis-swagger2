@@ -384,8 +384,8 @@ module.exports = function () {
     var instancePath =  '/' + pluralName + '/{id}'; 
 
     var paths = {};
-    buildSingularPathParams(paths, instancePath, controller);
-    buildCollectionPathParams(paths, collectionPath, controller);
+    buildPathParams(paths, instancePath, true, controller);
+    buildPathParams(paths, collectionPath, false, controller);
   
     buildOperation(paths[instancePath], 'instance', 'get');
     buildOperation(paths[instancePath], 'instance', 'put');
@@ -398,22 +398,14 @@ module.exports = function () {
     return controller;
   };
 
-  function buildSingularPathParams(pathContainer, instancePath, controller) {
-    var pathSingleParams = params.generatePathParameters(true, controller);
-    if (pathSingleParams.length > 0) {
-      pathContainer[instancePath] = {
-        parameters : pathSingleParams
+  function buildPathParams(pathContainer, path, isInstance, controller) {
+    var pathParams = params.generatePathParameters(isInstance, controller);
+    if (pathParams.length > 0) {
+      pathContainer[path] = {
+        parameters : pathParams
       };      
     }   
-  }
-  function buildCollectionPathParams(pathContainer, collectionPath, controller) {
-    var pathCollectionParams = params.generatePathParameters(false, controller);
-    if (pathCollectionParams.length > 0) {
-      pathContainer[collectionPath] = {
-        parameters : pathCollectionParams
-      };      
-    }
-  }
+  }  
 
   return controller;
 };
