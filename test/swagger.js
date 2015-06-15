@@ -67,7 +67,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(pathInstance0.get.operationId).to.be('getVegetableById');
         expect(pathInstance0.get.summary).to.be('Get a vegetable by its unique ID');
         expect(pathInstance0.get.description).to.be('Retrieve a vegetable by its ID.');
-        expect(pathInstance0.get.parameters).to.be.an(Array);
+        expect(pathInstance0.get.parameters).to.be(undefined);
         expect(pathInstance0.get.responses).to.be.an(Object);
         expect(pathInstance0.get.security).to.be(undefined);
 
@@ -239,7 +239,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(pathInstance0.get.operationId).to.be('getVegetableById');
         expect(pathInstance0.get.summary).to.be('Get a vegetable by its unique ID');
         expect(pathInstance0.get.description).to.be('Retrieve a vegetable by its ID.');
-        expect(pathInstance0.get.parameters).to.be.an(Array);
+        expect(pathInstance0.get.parameters).to.be(undefined);
         expect(pathInstance0.get.responses).to.be.an(Object);
         expect(pathInstance0.get.security).to.be(undefined);
 
@@ -722,8 +722,8 @@ describe('Swagger 2.0 Resources', function () {
 
         expect(response).to.have.property('statusCode', 200);
 
-        expect(body.paths['/vegetables'].get.parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables'].get.parameters, 'name', 'select'); 
+        expect(body.paths['/vegetables'].parameters).to.be.an(Array);
+        var param = getItemFromArray(body.paths['/vegetables'].parameters, 'name', 'select'); 
         expect(param).to.have.property('name', 'select');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'Select which paths will be returned by the query. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#select');
@@ -744,8 +744,8 @@ describe('Swagger 2.0 Resources', function () {
 
         expect(response).to.have.property('statusCode', 200);
 
-        expect(body.paths['/vegetables'].get.parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables'].get.parameters, 'name', 'populate'); 
+        expect(body.paths['/vegetables'].parameters).to.be.an(Array);
+        var param = getItemFromArray(body.paths['/vegetables'].parameters, 'name', 'populate'); 
         expect(param).to.have.property('name', 'populate');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'Specify which paths to populate. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#populate');
@@ -831,7 +831,7 @@ describe('Swagger 2.0 Resources', function () {
 
         expect(response).to.have.property('statusCode', 200);
 
-        expect(body.paths['/vegetables/{id}'].get.parameters).to.be.an(Array);
+        expect(body.paths['/vegetables/{id}'].parameters).to.be.an(Array);
         var param = getItemFromArray(body.paths['/vegetables/{id}'].parameters, 'name', 'id' ); 
         expect(param).to.have.property('name', 'id');
         expect(param).to.have.property('in', 'path');
@@ -853,7 +853,7 @@ describe('Swagger 2.0 Resources', function () {
 
         expect(response).to.have.property('statusCode', 200);
 
-        expect(body.paths['/vegetables/{id}'].get.parameters).to.be.an(Array);
+        expect(body.paths['/vegetables/{id}'].put.parameters).to.be.an(Array);
         var param = getItemFromArray(body.paths['/vegetables/{id}'].put.parameters, 'name', 'X-Baucis-Update-Operator'); 
         expect(param).to.have.property('name', 'X-Baucis-Update-Operator');
         expect(param).to.have.property('in', 'header');

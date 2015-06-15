@@ -129,9 +129,6 @@ function getParamId(controller) {
   // Generate parameter list for operations
   function generateOperationParameters(isInstance, verb, controller) {
     var parameters = [];
-    // Parameters available for singular and plural routes
-    parameters.push(getParamSelect(), 
-                    getParamPopulate());
 
     if (isInstance) {
 	  addOperationSingularParameters(verb, parameters);
@@ -169,6 +166,11 @@ function getParamId(controller) {
   // Generate parameter list for path: common for several operations
   function generatePathParameters(isInstance, controller) {
     var parameters = [];
+    
+    // Parameters available for singular and plural routes
+    parameters.push(getParamSelect(), 
+                    getParamPopulate());
+
     if (isInstance) {
       // Parameters available for singular routes
       addPathSingularParameters(controller, parameters);
