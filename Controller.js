@@ -91,7 +91,7 @@ module.exports = function () {
       parameters: params.generateOperationParameters(isInstance, verb, controller),
       responses: buildResponsesFor(isInstance, verb, resourceName, pluralName)
     };
-  if (res.parameters.length == 0) {
+  if (res.parameters.length === 0) {
     delete(res.parameters);
   }
 	var sec = buildSecurityFor();
@@ -363,15 +363,15 @@ module.exports = function () {
   // __Build the Definition__
   controller.generateSwagger2 = function () {	
     if (controller.swagger2) {
-	  return controller;
-	}
+	    return controller;
+	  }
 	
     var modelName = utils.capitalize(controller.model().singular());
 
     controller.swagger2 = { 
-		paths: {}, 
-		definitions: {}
-	};
+      paths: {}, 
+      definitions: {}
+    };
 
     // Add Resource Model
     controller.swagger2.definitions[modelName] = generateModelDefinition(controller.model().schema, modelName);
@@ -384,19 +384,9 @@ module.exports = function () {
     var instancePath =  '/' + pluralName + '/{id}'; 
 
     var paths = {};
-    var pathSingleParams = params.generatePathParameters(true, controller);
-    if (pathSingleParams.length > 0) {
-      paths[instancePath] = {
-        parameters : pathSingleParams
-      };      
-    }
-
-    var pathCollectionParams = params.generatePathParameters(false, controller);
-    if (pathCollectionParams.length > 0) {
-      paths[collectionPath] = {
-        parameters : pathCollectionParams
-      };      
-    }
+    buildSingularPathParams(paths, instancePath, controller);
+    buildCollectionPathParams(paths, collectionPath, controller);
+  
     buildOperation(paths[instancePath], 'instance', 'get');
     buildOperation(paths[instancePath], 'instance', 'put');
     buildOperation(paths[instancePath], 'instance', 'delete');
@@ -407,6 +397,23 @@ module.exports = function () {
 
     return controller;
   };
+
+  function buildSingularPathParams(pathContainer, instancePath, controller) {
+    var pathSingleParams = params.generatePathParameters(true, controller);
+    if (pathSingleParams.length > 0) {
+      pathContainer[instancePath] = {
+        parameters : pathSingleParams
+      };      
+    }   
+  }
+  function buildCollectionPathParams(pathContainer, collectionPath, controller) {
+    var pathCollectionParams = params.generatePathParameters(false, controller);
+    if (pathCollectionParams.length > 0) {
+      pathContainer[collectionPath] = {
+        parameters : pathCollectionParams
+      };      
+    }
+  }
 
   return controller;
 };
