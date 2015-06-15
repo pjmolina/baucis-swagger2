@@ -151,8 +151,7 @@ function getParamId(controller) {
   }
 
   function addSingularParameters(isInstance, parameters) {
-    if (isInstance) {
-      // Parameters available for singular routes
+    if (isInstance && (verb === 'put') {
       parameters.push(getParamXBaucisUpdateOperator());
     }
   }
