@@ -109,16 +109,25 @@ module.exports = function () {
         required: true
       };
   }    
+  // Generate parameter list for path
+  function generatePathParameters(isInstance) {
+    var parameters = [];
+    if (isInstance) {
+      // Parameters available for singular routes
+      parameters.push(getParamId());
+    }
+    return parameters;
+  }
+
   // Generate parameter list for operations
-  function generateParameters(isInstance, verb) {
+  function generateOperationParameters(isInstance, verb) {
     var parameters = [];
     // Parameters available for singular and plural routes
     parameters.push(getParamSelect(), 
                     getParamPopulate());
     if (isInstance) {
       // Parameters available for singular routes
-      parameters.push(getParamId(), 
-                      getParamXBaucisUpdateOperator());
+      parameters.push(getParamXBaucisUpdateOperator());
     }
     else {
       // Parameters available for plural routes
@@ -192,7 +201,7 @@ module.exports = function () {
     var res = {
       //consumes: ['application/json'], //if used overrides global definition
       //produces: ['application/json'], //if used overrides global definition
-      parameters: generateParameters(isInstance, verb),
+      parameters: generateOperationParameters(isInstance, verb),
       responses: buildResponsesFor(isInstance, verb, resourceName, pluralName)
     };
 	var sec = buildSecurityFor();
@@ -487,7 +496,9 @@ module.exports = function () {
     var instancePath =  '/' + pluralName + '/{id}'; 
 
     var paths = {};
-    paths[instancePath] = {};
+    paths[instancePath] = {
+      parameters : generatePathParameters(true)
+    };
     paths[collectionPath] = {};
     buildOperation(paths[instancePath], 'instance', 'get');
     buildOperation(paths[instancePath], 'instance', 'put');

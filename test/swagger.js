@@ -738,7 +738,7 @@ describe('Swagger 2.0 Resources', function () {
         done();
       });
     });
-    it('param id is generated', function (done) {
+    it('param id is generated at the path level', function (done) {
       var options = {
         url: 'http://127.0.0.1:8012/api/swagger.json',
         json: true
@@ -749,7 +749,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(response).to.have.property('statusCode', 200);
 
         expect(body.paths['/vegetables/{id}'].get.parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables/{id}'].get.parameters, 'name', 'id' ); 
+        var param = getItemFromArray(body.paths['/vegetables/{id}'].parameters, 'name', 'id' ); 
         expect(param).to.have.property('name', 'id');
         expect(param).to.have.property('in', 'path');
         expect(param).to.have.property('description', 'The ID of a vegetable.');
