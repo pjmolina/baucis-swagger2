@@ -104,7 +104,7 @@ function generateResourceListing (options) {
     //host: null, 
     basePath: options.basePath,
     tags: buildTags(options),
-    schemes: ['http'],
+    schemes: ['http', 'https'],
     consumes: ['application/json'],
     produces: ['application/json'],
     paths: paths,

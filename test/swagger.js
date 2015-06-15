@@ -39,6 +39,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(body.tags).to.be.an(Array);
         expect(body.schemes).to.be.an(Array);
         expect(body.schemes[0]).to.be('http');
+        expect(body.schemes[1]).to.be('https');
 
         expect(body.consumes).to.be.an(Array);
         expect(body.consumes.length).to.be(1);
