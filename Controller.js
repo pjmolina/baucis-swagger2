@@ -138,7 +138,8 @@ module.exports = function () {
     return res;
   }
 
-  function buildOperation(containerPath, mode, verb) {    
+  function buildOperation(containerPath, mode, verb) { 
+    var resourceName = controller.model().singular();   
     var operation = buildBaseOperation(mode, verb, controller);
     operation.tags = buildTags(resourceName);
     containerPath[verb] = operation;
