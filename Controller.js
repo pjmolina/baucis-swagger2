@@ -80,9 +80,11 @@ module.exports = function () {
     res.description = description;
     return res;
   }
-  function buildBaseOperation(mode, verb, resourceName, pluralName, controller) {
+  function buildBaseOperation(mode, verb, controller) {
+    var resourceName = controller.model().singular();
+    var pluralName = controller.model().plural();
     var isInstance = (mode === 'instance');
-	var resourceKey = utils.capitalize(resourceName);
+	  var resourceKey = utils.capitalize(resourceName);
     var res = {
       //consumes: ['application/json'], //if used overrides global definition
       //produces: ['application/json'], //if used overrides global definition
@@ -137,10 +139,7 @@ module.exports = function () {
   }
 
   function buildOperation(containerPath, mode, verb) {    
-    var resourceName = controller.model().singular();
-    var pluralName = controller.model().plural();
-
-    var operation = buildBaseOperation(mode, verb, resourceName, pluralName, controller);
+    var operation = buildBaseOperation(mode, verb, controller);
     operation.tags = buildTags(resourceName);
     containerPath[verb] = operation;
     return operation;
