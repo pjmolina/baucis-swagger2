@@ -91,6 +91,9 @@ module.exports = function () {
       parameters: params.generateOperationParameters(isInstance, verb, controller),
       responses: buildResponsesFor(isInstance, verb, resourceName, pluralName)
     };
+  if (res.parameters.length == 0) {
+    delete(res.parameters);
+  }
 	var sec = buildSecurityFor();
 	if (sec) {
 		res.security = sec;
@@ -381,10 +384,19 @@ module.exports = function () {
     var instancePath =  '/' + pluralName + '/{id}'; 
 
     var paths = {};
-    paths[instancePath] = {
-      parameters : params.generatePathParameters(true, controller)
-    };
-    paths[collectionPath] = {};
+    var pathSingleParams = params.generatePathParameters(true, controller);
+    if (pathSingleParams.length > 0) {
+      paths[instancePath] = {
+        parameters : pathSingleParams
+      };      
+    }
+
+    var pathCollectionParams = params.generatePathParameters(false, controller);
+    if (pathCollectionParams.length > 0) {
+      paths[collectionPath] = {
+        parameters : pathCollectionParams
+      };      
+    }
     buildOperation(paths[instancePath], 'instance', 'get');
     buildOperation(paths[instancePath], 'instance', 'put');
     buildOperation(paths[instancePath], 'instance', 'delete');

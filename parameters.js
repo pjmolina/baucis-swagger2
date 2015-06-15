@@ -125,15 +125,6 @@ function getParamId(controller) {
         required: true
       };
   }    
-  // Generate parameter list for path
-  function generatePathParameters(isInstance, controller) {
-    var parameters = [];
-    if (isInstance) {
-      // Parameters available for singular routes
-      parameters.push(getParamId(controller));
-    }
-    return parameters;
-  }
 
   // Generate parameter list for operations
   function generateOperationParameters(isInstance, verb, controller) {
@@ -142,32 +133,27 @@ function getParamId(controller) {
     parameters.push(getParamSelect(), 
                     getParamPopulate());
 
-    addSingularParameters(isInstance, verb, parameters);
-    addCollectionParameters(isInstance, parameters);
+    if (isInstance) {
+	  addOperationSingularParameters(verb, parameters);
+    }
+    else {
+	  addOperationCollectionParameters(verb, parameters);
+    }
     addPostParameters(verb, controller, parameters);
     addPutParameters(verb, controller, parameters);
 
     return parameters;
   }
 
-  function addSingularParameters(isInstance, verb, parameters) {
-    if (isInstance && (verb === 'put')) {
+  function addOperationSingularParameters(verb, parameters) {
+    if (verb === 'put') {
       parameters.push(getParamXBaucisUpdateOperator());
     }
   }
-  function addCollectionParameters(isInstance, parameters) {
-    if (!isInstance) {
-      // Parameters available for plural routes
-      parameters.push(getParamSkip(),
-                      getParamLimit(),
-                      getParamCount(),
-                      getParamConditions(),
-                      getParamSort(),
-                      getParamDistinct(),
-                      getParamHint(),
-                      getParamComment()
-                      );      
-    }
+  function addOperationCollectionParameters(verb, parameters) {
+	if (verb === 'get') {
+		parameters.push(getParamCount());
+	}      
   }
   function addPostParameters(verb, controller, parameters) {
     if (verb === 'post') {
@@ -180,6 +166,34 @@ function getParamId(controller) {
     }
   }
 
+  // Generate parameter list for path: common for several operations
+  function generatePathParameters(isInstance, controller) {
+    var parameters = [];
+    if (isInstance) {
+      // Parameters available for singular routes
+      addPathSingularParameters(controller, parameters);
+    }
+    else {
+	  addPathCollectionParameters(parameters);
+    }
+    return parameters;
+  }
+
+  function addPathSingularParameters(controller, parameters) {
+	// Parameters available for singular routes
+	 parameters.push(getParamId(controller));
+  }
+  function addPathCollectionParameters(parameters) {
+	// Parameters available for plural routes
+	parameters.push(getParamSkip(),
+	              getParamLimit(),
+	              getParamConditions(),
+	              getParamSort(),
+	              getParamDistinct(),
+	              getParamHint(),
+	              getParamComment()
+	              );
+  }
 
 module.exports = {
 	generateOperationParameters : generateOperationParameters,
