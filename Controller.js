@@ -191,14 +191,26 @@ module.exports = function () {
         'type': 'string'  
       }
     };
-    responses['200'] = {
-      description: 'Sucessful response.',
-      schema: {
-        '$ref': '#/definitions/' +  utils.capitalize(resourceName)
-      }
-    };
+    if (isInstance) {
+      responses['200'] = {
+        description: 'Sucessful response. Single resource.',
+        schema: {
+          '$ref': '#/definitions/' +  utils.capitalize(resourceName)
+        }
+      };
+    }
+    else {
+      responses['200'] = {
+        description: 'Sucessful response. Collection of resources.',
+        schema: {
+          type: 'array',
+          items: {
+            $ref: '#/definitions/' +  utils.capitalize(resourceName)
+          }
+        }
+      };      
+    }
     // TODO other errors (400, 403, etc. )
-
     responses['404'] = {
       description: (isInstance) ?
                         'No ' + resourceName + ' was found with that ID.' :

@@ -476,7 +476,7 @@ describe('Swagger 2.0 Resources', function () {
         var instanceResponses = body.paths['/vegetables/{id}'].get.responses;  
         expect(instanceResponses['404'].description).to.be('No vegetable was found with that ID.');
         expect(instanceResponses['404'].schema.type).to.be('string');
-        expect(instanceResponses['200'].description).to.be('Sucessful response.');
+        expect(instanceResponses['200'].description).to.be('Sucessful response. Single resource.');
         expect(instanceResponses['200'].schema['$ref']).to.be('#/definitions/Vegetable');
         expect(instanceResponses['default'].description).to.be('Unexpected error.');
         expect(instanceResponses['default'].schema.type).to.be('string');
@@ -488,8 +488,9 @@ describe('Swagger 2.0 Resources', function () {
         expect(collectionResponses['422'].description).to.be('Validation error.');
         expect(collectionResponses['422'].schema.type).to.be('array');
         expect(collectionResponses['422'].schema.items.$ref).to.be('#/definitions/ValidationError');
-        expect(collectionResponses['200'].description).to.be('Sucessful response.');
-        expect(collectionResponses['200'].schema['$ref']).to.be('#/definitions/Vegetable');
+        expect(collectionResponses['200'].description).to.be('Sucessful response. Collection of resources.');
+        expect(collectionResponses['200'].schema.type).to.be('array');
+        expect(collectionResponses['200'].schema.items.$ref).to.be('#/definitions/Vegetable');
         expect(collectionResponses['default'].description).to.be('Unexpected error.');
         expect(collectionResponses['default'].schema.type).to.be('string');
         expect(Object.keys(collectionResponses).length).to.be(4);
