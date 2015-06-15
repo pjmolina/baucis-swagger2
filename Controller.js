@@ -448,7 +448,7 @@ module.exports = function () {
         return {
           isPrimitive: true,
           type: sw2Type //primitive type
-        }
+        };
       }
       else {
         return  {
@@ -495,10 +495,10 @@ module.exports = function () {
 	
     //remove empty arrays -> swagger 2.0 validates 
     if (definition.required.length === 0) {
-    	delete(definition.required)
+    	delete(definition.required);
     }
     if (definition.properties.length === 0) {
-    	delete(definition.properties)
+    	delete(definition.properties);
     }
     return definition;
   }
