@@ -34,7 +34,7 @@ module.exports = function () {
     return {
         name: 'skip',
         in: 'query',
-        description: 'How many documents to skip.',
+        description: 'How many documents to skip. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#skip',
         type: 'integer',
         format: 'int32',
         required: false
@@ -44,7 +44,7 @@ module.exports = function () {
     return {
         name: 'limit',
         in: 'query',
-        description: 'The maximum number of documents to send.',
+        description: 'The maximum number of documents to send. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#limit',
         type: 'integer',
         format: 'int32',
         required: false
@@ -54,7 +54,7 @@ module.exports = function () {
     return {
         name: 'count',
         in: 'query',
-        description: 'Set to true to return count instead of documents.',
+        description: 'Set to true to return count instead of documents. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#count',
         type: 'boolean',
         required: false
       };
@@ -63,7 +63,7 @@ module.exports = function () {
     return {
         name: 'conditions',
         in: 'query',
-        description: 'Set the conditions used to find or remove the document(s).',
+        description: 'Set the conditions used to find or remove the document(s). See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#conditions',
         type: 'string',
         required: false
       };
@@ -72,7 +72,7 @@ module.exports = function () {
     return {
         name: 'sort',
         in: 'query',
-        description: 'Set the fields by which to sort.',
+        description: 'Set the fields by which to sort. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#sort',
         type: 'string',
         required: false
       };
@@ -81,7 +81,7 @@ module.exports = function () {
     return {
       name: 'select',
       in: 'query',
-      description: 'Select which paths will be returned by the query.',
+      description: 'Select which paths will be returned by the query. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#select',
       type: 'string',
       required: false
     };
@@ -90,11 +90,38 @@ module.exports = function () {
     return {
       name: 'populate',
       in: 'query',
-      description: 'Specify which paths to populate.',
+      description: 'Specify which paths to populate. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#populate',
       type: 'string',
       required: false
     };
   }  
+  function getParamDistinct() {
+    return {
+        name: 'distinct',
+        in: 'query',
+        description: 'Set to a path name to retrieve an array of distinct values. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#distinct',
+        type: 'string',
+        required: false
+      };
+  }
+  function getParamHint() {
+    return {
+        name: 'hint',
+        in: 'query',
+        description: 'Add an index hint to the query (must be enabled per controller). See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#hint',
+        type: 'string',
+        required: false
+      };
+  }
+  function getParamComment() {
+    return {
+        name: 'comment',
+        in: 'query',
+        description: 'Add a comment to a query (must be enabled per controller). See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#comment',
+        type: 'string',
+        required: false
+      };
+  }
   function getParamDocument(isPost) {
     // TODO post body can be single or array
     return {
@@ -135,7 +162,11 @@ module.exports = function () {
                       getParamLimit(),
                       getParamCount(),
                       getParamConditions(),
-                      getParamSort());
+                      getParamSort(),
+                      getParamDistinct(),
+                      getParamHint(),
+                      getParamComment()
+                      );
     }
     if (verb === 'post') {
       parameters.push(getParamDocument(true));

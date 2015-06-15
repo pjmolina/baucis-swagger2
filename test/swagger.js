@@ -600,7 +600,7 @@ describe('Swagger 2.0 Resources', function () {
         var param = getItemFromArray(body.paths['/vegetables'].get.parameters, 'name', 'skip'); 
         expect(param).to.have.property('name', 'skip');
         expect(param).to.have.property('in', 'query');
-        expect(param).to.have.property('description', 'How many documents to skip.');
+        expect(param).to.have.property('description', 'How many documents to skip. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#skip');
         expect(param).to.have.property('type', 'integer');
         expect(param).to.have.property('format', 'int32');
         expect(param).to.have.property('required', false);
@@ -622,7 +622,7 @@ describe('Swagger 2.0 Resources', function () {
         var param = getItemFromArray(body.paths['/vegetables'].get.parameters, 'name', 'limit'); 
         expect(param).to.have.property('name', 'limit');
         expect(param).to.have.property('in', 'query');
-        expect(param).to.have.property('description', 'The maximum number of documents to send.');
+        expect(param).to.have.property('description', 'The maximum number of documents to send. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#limit');
         expect(param).to.have.property('type', 'integer');
         expect(param).to.have.property('format', 'int32');
         expect(param).to.have.property('required', false);
@@ -644,7 +644,7 @@ describe('Swagger 2.0 Resources', function () {
         var param = getItemFromArray(body.paths['/vegetables'].get.parameters, 'name', 'count'); 
         expect(param).to.have.property('name', 'count');
         expect(param).to.have.property('in', 'query');
-        expect(param).to.have.property('description', 'Set to true to return count instead of documents.');
+        expect(param).to.have.property('description', 'Set to true to return count instead of documents. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#count');
         expect(param).to.have.property('type', 'boolean');
         expect(param).to.have.property('required', false);
         
@@ -665,7 +665,7 @@ describe('Swagger 2.0 Resources', function () {
         var param = getItemFromArray(body.paths['/vegetables'].get.parameters, 'name', 'conditions'); 
         expect(param).to.have.property('name', 'conditions');
         expect(param).to.have.property('in', 'query');
-        expect(param).to.have.property('description', 'Set the conditions used to find or remove the document(s).');
+        expect(param).to.have.property('description', 'Set the conditions used to find or remove the document(s). See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#conditions');
         expect(param).to.have.property('type', 'string');
         expect(param).to.have.property('required', false);
         
@@ -687,7 +687,7 @@ describe('Swagger 2.0 Resources', function () {
         var param = getItemFromArray(body.paths['/vegetables'].get.parameters, 'name', 'sort'); 
         expect(param).to.have.property('name', 'sort');
         expect(param).to.have.property('in', 'query');
-        expect(param).to.have.property('description', 'Set the fields by which to sort.');
+        expect(param).to.have.property('description', 'Set the fields by which to sort. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#sort');
         expect(param).to.have.property('type', 'string');
         expect(param).to.have.property('required', false);
         
@@ -709,7 +709,7 @@ describe('Swagger 2.0 Resources', function () {
         var param = getItemFromArray(body.paths['/vegetables'].get.parameters, 'name', 'select'); 
         expect(param).to.have.property('name', 'select');
         expect(param).to.have.property('in', 'query');
-        expect(param).to.have.property('description', 'Select which paths will be returned by the query.');
+        expect(param).to.have.property('description', 'Select which paths will be returned by the query. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#select');
         expect(param).to.have.property('type', 'string');
         expect(param).to.have.property('required', false);
         
@@ -731,13 +731,79 @@ describe('Swagger 2.0 Resources', function () {
         var param = getItemFromArray(body.paths['/vegetables'].get.parameters, 'name', 'populate'); 
         expect(param).to.have.property('name', 'populate');
         expect(param).to.have.property('in', 'query');
-        expect(param).to.have.property('description', 'Specify which paths to populate.');
+        expect(param).to.have.property('description', 'Specify which paths to populate. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#populate');
         expect(param).to.have.property('type','string');
         expect(param).to.have.property('required', false);
         
         done();
       });
     });
+    it('param distinct is generated', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        expect(response).to.have.property('statusCode', 200);
+
+        expect(body.paths['/vegetables'].get.parameters).to.be.an(Array);
+        var param = getItemFromArray(body.paths['/vegetables'].get.parameters, 'name', 'distinct'); 
+        expect(param).to.have.property('name', 'distinct');
+        expect(param).to.have.property('in', 'query');
+        expect(param).to.have.property('description', 'Set to a path name to retrieve an array of distinct values. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#distinct');
+        expect(param).to.have.property('type','string');
+        expect(param).to.have.property('required', false);
+        
+        done();
+      });
+    });
+
+    it('param hint is generated', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        expect(response).to.have.property('statusCode', 200);
+
+        expect(body.paths['/vegetables'].get.parameters).to.be.an(Array);
+        var param = getItemFromArray(body.paths['/vegetables'].get.parameters, 'name', 'hint'); 
+        expect(param).to.have.property('name', 'hint');
+        expect(param).to.have.property('in', 'query');
+        expect(param).to.have.property('description', 'Add an index hint to the query (must be enabled per controller). See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#hint');
+        expect(param).to.have.property('type','string');
+        expect(param).to.have.property('required', false);
+        
+        done();
+      });
+    });
+
+    it('param comment is generated', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        expect(response).to.have.property('statusCode', 200);
+
+        expect(body.paths['/vegetables'].get.parameters).to.be.an(Array);
+        var param = getItemFromArray(body.paths['/vegetables'].get.parameters, 'name', 'comment'); 
+        expect(param).to.have.property('name', 'comment');
+        expect(param).to.have.property('in', 'query');
+        expect(param).to.have.property('description', 'Add a comment to a query (must be enabled per controller). See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#comment');
+        expect(param).to.have.property('type','string');
+        expect(param).to.have.property('required', false);
+        
+        done();
+      });
+    });
+
     it('param id is generated at the path level', function (done) {
       var options = {
         url: 'http://127.0.0.1:8012/api/swagger.json',
