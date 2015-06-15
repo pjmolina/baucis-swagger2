@@ -152,11 +152,23 @@ module.exports = function () {
     // Parameters available for singular and plural routes
     parameters.push(getParamSelect(), 
                     getParamPopulate());
+
+    addSingularParameters(isInstance, parameters);
+    addCollectionParameters(isInstance, parameters);
+    addPostParameters(verb, parameters);
+    addPutParameters(verb, parameters);
+
+    return parameters;
+  }
+
+  function addSingularParameters(isInstance, parameters) {
     if (isInstance) {
       // Parameters available for singular routes
       parameters.push(getParamXBaucisUpdateOperator());
     }
-    else {
+  }
+  function addCollectionParameters(isInstance, parameters) {
+    if (!isInstance) {
       // Parameters available for plural routes
       parameters.push(getParamSkip(),
                       getParamLimit(),
@@ -166,15 +178,18 @@ module.exports = function () {
                       getParamDistinct(),
                       getParamHint(),
                       getParamComment()
-                      );
+                      );      
     }
+  }
+  function addPostParameters(verb, parameters) {
     if (verb === 'post') {
       parameters.push(getParamDocument(true));
     }
+  }
+  function addPutParameters(verb, parameters) {
     if (verb === 'put') {
       parameters.push(getParamDocument(false));
     }
-    return parameters;
   }
 
   function buildTags(resourceName) {
