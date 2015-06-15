@@ -341,14 +341,27 @@ describe('Swagger 2.0 Resources', function () {
         expect(body.definitions.GooseStuffed.properties.id.type).to.be('string');
         expect(Object.keys(body.definitions.GooseStuffed.properties).length).to.be(3);
 
-        expect(body.definitions.ErrorModel).to.be.an(Object);
-        expect(body.definitions.ErrorModel.required.length).to.be(2);
-        expect(body.definitions.ErrorModel.required[0]).to.be('code');
-        expect(body.definitions.ErrorModel.required[1]).to.be('message');
-        expect(body.definitions.ErrorModel.properties.code.type).to.be('integer');
-        expect(body.definitions.ErrorModel.properties.code.format).to.be('int32');
-        expect(body.definitions.ErrorModel.properties.message.type).to.be('string');
-        expect(Object.keys(body.definitions.ErrorModel.properties).length).to.be(2);
+        expect(body.definitions.ValidationError).to.be.an(Object);
+        expect(body.definitions.ValidationError.required.length).to.be(4);
+        expect(body.definitions.ValidationError.required[0]).to.be('message');
+        expect(body.definitions.ValidationError.required[1]).to.be('name');
+        expect(body.definitions.ValidationError.required[2]).to.be('kind');
+        expect(body.definitions.ValidationError.required[3]).to.be('path');
+        expect(Object.keys(body.definitions.ValidationError.properties).length).to.be(5);
+        expect(body.definitions.ValidationError.properties.properties.$ref).to.be('#/definitions/ValidationErrorProperties');
+        expect(body.definitions.ValidationError.properties.message.type).to.be('string');
+        expect(body.definitions.ValidationError.properties.kind.type).to.be('string');
+        expect(body.definitions.ValidationError.properties.path.type).to.be('string');
+
+        expect(body.definitions.ValidationErrorProperties).to.be.an(Object);
+        expect(body.definitions.ValidationErrorProperties.required.length).to.be(3);
+        expect(body.definitions.ValidationErrorProperties.required[0]).to.be('type');
+        expect(body.definitions.ValidationErrorProperties.required[1]).to.be('message');
+        expect(body.definitions.ValidationErrorProperties.required[2]).to.be('path');
+        expect(Object.keys(body.definitions.ValidationErrorProperties.properties).length).to.be(3);
+        expect(body.definitions.ValidationErrorProperties.properties.type.type).to.be('string');
+        expect(body.definitions.ValidationErrorProperties.properties.message.type).to.be('string');
+        expect(body.definitions.ValidationErrorProperties.properties.path.type).to.be('string');
 
         done();
       });
@@ -462,22 +475,23 @@ describe('Swagger 2.0 Resources', function () {
         
         var instanceResponses = body.paths['/vegetables/{id}'].get.responses;  
         expect(instanceResponses['404'].description).to.be('No vegetable was found with that ID.');
-        expect(instanceResponses['404'].schema['$ref']).to.be('#/definitions/ErrorModel');
+        expect(instanceResponses['404'].schema.type).to.be('string');
         expect(instanceResponses['200'].description).to.be('Sucessful response.');
         expect(instanceResponses['200'].schema['$ref']).to.be('#/definitions/Vegetable');
         expect(instanceResponses['default'].description).to.be('Unexpected error.');
-        expect(instanceResponses['default'].schema['$ref']).to.be('#/definitions/ErrorModel');
+        expect(instanceResponses['default'].schema.type).to.be('string');
         expect(Object.keys(instanceResponses).length).to.be(3);
 
         var collectionResponses = body.paths['/vegetables'].post.responses;
         expect(collectionResponses['404'].description).to.be('No vegetables matched that query.');
-        expect(collectionResponses['404'].schema['$ref']).to.be('#/definitions/ErrorModel');
+        expect(collectionResponses['404'].schema.type).to.be('string');
         expect(collectionResponses['422'].description).to.be('Validation error.');
-        expect(collectionResponses['422'].schema['$ref']).to.be('#/definitions/ErrorModel');
+        expect(collectionResponses['422'].schema.type).to.be('array');
+        expect(collectionResponses['422'].schema.items.$ref).to.be('#/definitions/ValidationError');
         expect(collectionResponses['200'].description).to.be('Sucessful response.');
         expect(collectionResponses['200'].schema['$ref']).to.be('#/definitions/Vegetable');
         expect(collectionResponses['default'].description).to.be('Unexpected error.');
-        expect(collectionResponses['default'].schema['$ref']).to.be('#/definitions/ErrorModel');
+        expect(collectionResponses['default'].schema.type).to.be('string');
         expect(Object.keys(collectionResponses).length).to.be(4);
 
         done();
@@ -498,7 +512,8 @@ describe('Swagger 2.0 Resources', function () {
         expect(operation).to.be.an(Object);
         expect(operation.responses).to.have.property('422');
         expect(operation.responses['422']).to.have.property('description', 'Validation error.');
-        expect(operation.responses['422'].schema).to.have.property('$ref', '#/definitions/ErrorModel');
+        expect(operation.responses['422'].schema.type).to.be('array');
+        expect(operation.responses['422'].schema.items.$ref).to.be('#/definitions/ValidationError');
         
         done();
       });
@@ -518,7 +533,8 @@ describe('Swagger 2.0 Resources', function () {
         expect(operation).to.be.an(Object);
         expect(operation.responses).to.have.property('422');
         expect(operation.responses['422']).to.have.property('description', 'Validation error.');
-        expect(operation.responses['422'].schema).to.have.property('$ref', '#/definitions/ErrorModel');
+        expect(operation.responses['422'].schema.type).to.be('array');
+        expect(operation.responses['422'].schema.items.$ref).to.be('#/definitions/ValidationError');
         
         done();
       });

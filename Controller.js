@@ -184,10 +184,11 @@ module.exports = function () {
   function buildResponsesFor(isInstance, verb, resourceName, pluralName) {
     var responses = {};
 
+    //default errors on baucis httpStatus code + string
     responses.default = {
       description: 'Unexpected error.',
       schema: {
-        '$ref': '#/definitions/ErrorModel'
+        'type': 'string'  
       }
     };
     responses['200'] = {
@@ -203,14 +204,18 @@ module.exports = function () {
                         'No ' + resourceName + ' was found with that ID.' :
                         'No ' + pluralName + ' matched that query.',
       schema: {
-        '$ref': '#/definitions/ErrorModel'
+        'type': 'string'  
+        //'$ref': '#/definitions/ErrorModel'
       }
     };
     if (verb === 'put' || verb==='post' || verb==='patch') {
       responses['422'] = {
         description: 'Validation error.',
         schema: {
-          '$ref': '#/definitions/ErrorModel'
+          type: 'array',
+          items: {
+            '$ref': '#/definitions/ValidationError'
+          }
         }
       };
     }

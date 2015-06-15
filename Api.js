@@ -15,20 +15,45 @@ function getBase (request, extra) {
   return base;
 }
 
-function generateErrorModelDefinition() {
-  var error = {
-    required: ['code', 'message'],
+function generateValidationErrorDefinition() {
+  var def = {
+    required: ['message', 'name', 'kind', 'path'],
     properties: {
-      code: {
-        type: 'integer',
-        format: 'int32'
+      properties: {
+        '$ref': '#/definitions/ValidationErrorProperties'
       },
       message: {
+        type: 'string'
+      },
+      name: {
+        type: 'string'
+      },
+      kind: {
+        type: 'string'
+      },
+      path: {
         type: 'string'
       }
     }
   };
-  return error;
+  return def;
+}
+function generateValidationErrorPropertiesDefinition() {
+  var def = {
+    required: ['type', 'message', 'path'],
+    properties: {
+      type: {
+        type: 'string'
+      },
+      message: {
+        type: 'string'
+      },
+      path: {
+        type: 'string'
+      }
+    }
+  };
+  return def;  
 }
 
 function buildTags(options) {
@@ -73,7 +98,8 @@ function buildDefinitions(controllers) {
         definitions[def] = collection[def];
       }
     }
-    definitions.ErrorModel = generateErrorModelDefinition();
+    definitions.ValidationError = generateValidationErrorDefinition();
+    definitions.ValidationErrorProperties = generateValidationErrorPropertiesDefinition();    
   });
   return definitions;
 }
