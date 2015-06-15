@@ -46,8 +46,9 @@ describe('Swagger 2.0 Resources', function () {
         expect(body.consumes[0]).to.be('application/json');
 
         expect(body.produces).to.be.an(Array);
-        expect(body.produces.length).to.be(1);
+        expect(body.produces.length).to.be(2);
         expect(body.produces[0]).to.be('application/json');
+        expect(body.produces[1]).to.be('text/html');
 
 
         // Check the API listing

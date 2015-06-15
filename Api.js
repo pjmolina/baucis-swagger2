@@ -106,7 +106,7 @@ function generateResourceListing (options) {
     tags: buildTags(options),
     schemes: ['http', 'https'],
     consumes: ['application/json'],
-    produces: ['application/json'],
+    produces: ['application/json', 'text/html'],
     paths: paths,
     definitions: definitions,
     //parameters: getReusableParameters(),
