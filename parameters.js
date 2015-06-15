@@ -142,7 +142,7 @@ function getParamId(controller) {
     parameters.push(getParamSelect(), 
                     getParamPopulate());
 
-    addSingularParameters(isInstance, parameters);
+    addSingularParameters(isInstance, verb, parameters);
     addCollectionParameters(isInstance, parameters);
     addPostParameters(verb, controller, parameters);
     addPutParameters(verb, controller, parameters);
@@ -150,8 +150,8 @@ function getParamId(controller) {
     return parameters;
   }
 
-  function addSingularParameters(isInstance, parameters) {
-    if (isInstance && (verb === 'put') {
+  function addSingularParameters(isInstance, verb, parameters) {
+    if (isInstance && (verb === 'put')) {
       parameters.push(getParamXBaucisUpdateOperator());
     }
   }

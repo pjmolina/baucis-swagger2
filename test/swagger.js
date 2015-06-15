@@ -843,7 +843,7 @@ describe('Swagger 2.0 Resources', function () {
       });
     });
 
-    it('param X-Baucis-Update-Operator is generated', function (done) {
+    it('param X-Baucis-Update-Operator is generated on put operation', function (done) {
       var options = {
         url: 'http://127.0.0.1:8012/api/swagger.json',
         json: true
@@ -854,7 +854,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(response).to.have.property('statusCode', 200);
 
         expect(body.paths['/vegetables/{id}'].get.parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables/{id}'].get.parameters, 'name', 'X-Baucis-Update-Operator'); 
+        var param = getItemFromArray(body.paths['/vegetables/{id}'].put.parameters, 'name', 'X-Baucis-Update-Operator'); 
         expect(param).to.have.property('name', 'X-Baucis-Update-Operator');
         expect(param).to.have.property('in', 'header');
         expect(param).to.have.property('description', '**BYPASSES VALIDATION** May be used with PUT to update the document using $push, $pull, or $set.');
