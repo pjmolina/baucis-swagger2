@@ -459,6 +459,23 @@ describe('Swagger 2.0 Resources', function () {
       });
     });    
 
+	it('should preserve extended root definitions', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        expect(response).to.have.property('statusCode', 200);
+        expect(body.definitions).to.have.property('customDefinition');
+        expect(body.definitions.customDefinition).to.have.property('properties');
+        expect(body.definitions.customDefinition.properties).to.have.property('a');
+        
+        done();
+      });
+    });  	
+
   });
 
   describe('responses', function () {

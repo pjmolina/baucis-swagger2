@@ -86,6 +86,14 @@ var fixture = module.exports = {
     baucisInstance.swagger2Document.host = 'api.acme.com:8012';
     baucisInstance.swagger2Document['x-powered-by'] = 'baucis';
 
+	baucisInstance.swagger2Document.definitions.customDefinition = {
+		properties: {
+			a: {
+				type: "string"
+			}
+		}
+	};
+	
     app.use('/api', baucisInstance);
 
     app.use(function (error, request, response, next) {

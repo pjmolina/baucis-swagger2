@@ -155,14 +155,25 @@ function generateResourceListing (options) {
 //build an specific spec based on options and filtered controllers
 function generateResourceListingForVersion(options) {
   var clone = JSON.parse(JSON.stringify(options.rootDocument));
-
   clone.info.version =  options.version;
   clone.basePath = options.basePath;
-
-  clone.paths = buildPaths(options.controllers);
-  clone.definitions = buildDefinitions(options.controllers);
+  clone.paths = clone.paths || {};
+  clone.definitions = clone.definitions || {};
+  mergeIn(clone.paths, buildPaths(options.controllers));
+  mergeIn(clone.definitions, buildDefinitions(options.controllers));
 
   return clone;
+}
+
+function mergeIn(container, items) {
+	if (!items) {
+		return;
+	}
+	for(var key in items) {
+		if (items.hasOwnProperty(key)) {
+			container[key] = items[key];
+        }
+	}
 }
 
 
