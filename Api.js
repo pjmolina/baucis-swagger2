@@ -1,5 +1,6 @@
 // __Dependencies__
 var utils = require('./utils');
+var params = require('./parameters');
 
 // __Private Module Members__
 
@@ -67,14 +68,7 @@ function buildTags(options) {
   });
   return tags;
 }
-/* TODO. Move general params to a unique point of definition accordingly to Swagger 2.0
-function getReusableParameters() {
-  return [];  
-}
-function getReusableResponses() {
-  return [];  
-}
-*/
+
 function buildPaths(controllers) {
   var paths = {};
   controllers.forEach(function (controller) {
@@ -135,7 +129,7 @@ function generateResourceListing (options) {
     produces: ['application/json', 'text/html'],
     paths: paths,
     definitions: definitions,
-    //parameters: getReusableParameters(),
+    parameters: params.generateCommonParams()
     //responses: getReusableResponses(),
     //securityDefinitions: {},
     //security: []  // Must be added via extensions

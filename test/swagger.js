@@ -618,9 +618,9 @@ describe('Swagger 2.0 Resources', function () {
 
   });
 
-  describe('parameters are generated as expected', function (done) {
+  describe('parameters definition', function (done) {
 
-    it('param skip is generated', function (done) {
+	it('param skip is generated', function (done) {
       var options = {
         url: 'http://127.0.0.1:8012/api/swagger.json',
         json: true
@@ -628,10 +628,8 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        expect(response).to.have.property('statusCode', 200);
-
-        expect(body.paths['/vegetables'].parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, 'name', 'skip'); 
+        expect(body.parameters).to.be.an(Array);
+        var param = getItemFromArray(body.parameters, 'name', 'skip'); 
         expect(param).to.have.property('name', 'skip');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'How many documents to skip. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#skip');
@@ -642,7 +640,8 @@ describe('Swagger 2.0 Resources', function () {
         done();
       });
     });
-    it('param limit is generated', function (done) {
+
+	it('param limit is generated', function (done) {
       var options = {
         url: 'http://127.0.0.1:8012/api/swagger.json',
         json: true
@@ -650,10 +649,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        expect(response).to.have.property('statusCode', 200);
-
-        expect(body.paths['/vegetables'].parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, 'name', 'limit'); 
+        var param = getItemFromArray(body.parameters, 'name', 'limit'); 
         expect(param).to.have.property('name', 'limit');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'The maximum number of documents to send. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#limit');
@@ -672,10 +668,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        expect(response).to.have.property('statusCode', 200);
-
-        expect(body.paths['/vegetables'].get.parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables'].get.parameters, 'name', 'count'); 
+		var param = getItemFromArray(body.parameters, 'name', 'count'); 
         expect(param).to.have.property('name', 'count');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'Set to true to return count instead of documents. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#count');
@@ -693,10 +686,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        expect(response).to.have.property('statusCode', 200);
-
-        expect(body.paths['/vegetables'].parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, 'name', 'conditions'); 
+		var param = getItemFromArray(body.parameters, 'name', 'conditions'); 
         expect(param).to.have.property('name', 'conditions');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'Set the conditions used to find or remove the document(s). See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#conditions');
@@ -715,10 +705,8 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        expect(response).to.have.property('statusCode', 200);
+		var param = getItemFromArray(body.parameters, 'name', 'sort'); 
 
-        expect(body.paths['/vegetables'].parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, 'name', 'sort'); 
         expect(param).to.have.property('name', 'sort');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'Set the fields by which to sort. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#sort');
@@ -737,10 +725,8 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        expect(response).to.have.property('statusCode', 200);
-
-        expect(body.paths['/vegetables'].parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, 'name', 'select'); 
+		var param = getItemFromArray(body.parameters, 'name', 'select'); 
+ 
         expect(param).to.have.property('name', 'select');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'Select which paths will be returned by the query. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#select');
@@ -759,10 +745,8 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        expect(response).to.have.property('statusCode', 200);
+		var param = getItemFromArray(body.parameters, 'name', 'populate'); 
 
-        expect(body.paths['/vegetables'].parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, 'name', 'populate'); 
         expect(param).to.have.property('name', 'populate');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'Specify which paths to populate. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#populate');
@@ -780,10 +764,8 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        expect(response).to.have.property('statusCode', 200);
+		var param = getItemFromArray(body.parameters, 'name', 'distinct'); 
 
-        expect(body.paths['/vegetables'].parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, 'name', 'distinct'); 
         expect(param).to.have.property('name', 'distinct');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'Set to a path name to retrieve an array of distinct values. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#distinct');
@@ -802,10 +784,8 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        expect(response).to.have.property('statusCode', 200);
+		var param = getItemFromArray(body.parameters, 'name', 'hint'); 
 
-        expect(body.paths['/vegetables'].parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, 'name', 'hint'); 
         expect(param).to.have.property('name', 'hint');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'Add an index hint to the query (must be enabled per controller). See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#hint');
@@ -824,10 +804,8 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        expect(response).to.have.property('statusCode', 200);
-
-        expect(body.paths['/vegetables'].parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, 'name', 'comment'); 
+		var param = getItemFromArray(body.parameters, 'name', 'comment'); 
+ 
         expect(param).to.have.property('name', 'comment');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'Add a comment to a query (must be enabled per controller). See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#comment');
@@ -838,7 +816,7 @@ describe('Swagger 2.0 Resources', function () {
       });
     });
 
-    it('param id is generated at the path level', function (done) {
+    it('param id is generated', function (done) {
       var options = {
         url: 'http://127.0.0.1:8012/api/swagger.json',
         json: true
@@ -846,13 +824,11 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        expect(response).to.have.property('statusCode', 200);
+		var param = getItemFromArray(body.parameters, 'name', 'id'); 
 
-        expect(body.paths['/vegetables/{id}'].parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables/{id}'].parameters, 'name', 'id' ); 
         expect(param).to.have.property('name', 'id');
         expect(param).to.have.property('in', 'path');
-        expect(param).to.have.property('description', 'The ID of a vegetable.');
+        expect(param).to.have.property('description', 'The identifier of the resource.');
         expect(param).to.have.property('type', 'string');
         expect(param).to.have.property('required', true);
         
@@ -868,10 +844,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        expect(response).to.have.property('statusCode', 200);
-
-        expect(body.paths['/vegetables/{id}'].put.parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables/{id}'].put.parameters, 'name', 'X-Baucis-Update-Operator'); 
+		var param = getItemFromArray(body.parameters, 'name', 'X-Baucis-Update-Operator'); 
         expect(param).to.have.property('name', 'X-Baucis-Update-Operator');
         expect(param).to.have.property('in', 'header');
         expect(param).to.have.property('description', '**BYPASSES VALIDATION** May be used with PUT to update the document using $push, $pull, or $set.');
@@ -880,8 +853,169 @@ describe('Swagger 2.0 Resources', function () {
         
         done();
       });
-    });
+    });	
+	
+  });
 
+  describe('parameters usage', function (done) {
+  
+	it('param skip is referenced', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        expect(body.paths['/vegetables'].parameters).to.be.an(Array);
+        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/skip'); 
+        expect(param).to.have.property('$ref', '#/parameters/skip');
+        
+        done();
+      });
+    });
+	it('param limit is referenced', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/limit'); 
+        expect(param).to.have.property('$ref', '#/parameters/limit');
+        
+        done();
+      });
+    });
+	it('param count is referenced', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        var param = getItemFromArray(body.paths['/vegetables'].get.parameters, '$ref', '#/parameters/count'); 
+        expect(param).to.have.property('$ref', '#/parameters/count');
+        
+        done();
+      });
+    });
+	it('param conditions is referenced', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/conditions'); 
+        expect(param).to.have.property('$ref', '#/parameters/conditions');
+        
+        done();
+      });
+    });
+	it('param sort is referenced', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/sort'); 
+        expect(param).to.have.property('$ref', '#/parameters/sort');
+        
+        done();
+      });
+    });
+	it('param select is referenced', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/select'); 
+        expect(param).to.have.property('$ref', '#/parameters/select');
+        
+        done();
+      });
+    });
+	it('param populate is referenced', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/populate'); 
+        expect(param).to.have.property('$ref', '#/parameters/populate');
+        
+        done();
+      });
+    });
+	it('param distinct is referenced', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/distinct'); 
+        expect(param).to.have.property('$ref', '#/parameters/distinct');
+        
+        done();
+      });
+    });
+	it('param hint is referenced', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/hint'); 
+        expect(param).to.have.property('$ref', '#/parameters/hint');
+        
+        done();
+      });
+    });
+	it('param comment is referenced', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/comment'); 
+        expect(param).to.have.property('$ref', '#/parameters/comment');
+        
+        done();
+      });
+    });
+	
+	it('param id is referenced', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        var param = getItemFromArray(body.paths['/vegetables/{id}'].parameters, '$ref', '#/parameters/id'); 
+        expect(param).to.have.property('$ref', '#/parameters/id');
+        
+        done();
+      });
+    });
+	
     it('param document is generated', function (done) {
       var options = {
         url: 'http://127.0.0.1:8012/api/swagger.json',
@@ -1053,7 +1187,6 @@ describe('Swagger 2.0 Resources', function () {
   });
 
   describe('pending - todo', function() {
-      it('define parameters only once and use references to use them per operations.');
       it('enum values');
       it('securityDefinitions is generated - via customization');
       it('security is generated - via customization');

@@ -1,16 +1,16 @@
 //Module with helper functions for building Swagger parameters metadata 
 var utils = require('./utils');
 
-function getParamId(controller) {
+function getParamId() {
     return {
         name: 'id',
         in: 'path',
-        description: 'The ID of a ' + controller.model().singular() +'.',
+        description: 'The identifier of the resource.',
         type: 'string',
         required: true
       };
-  }
-  function getParamXBaucisUpdateOperator() {
+}
+function getParamXBaucisUpdateOperator() {
     return {
         name: 'X-Baucis-Update-Operator',
         in: 'header',
@@ -18,8 +18,8 @@ function getParamId(controller) {
         type: 'string',
         required: false
       };
-  }
-  function getParamSkip() {
+}
+function getParamSkip() {
     return {
         name: 'skip',
         in: 'query',
@@ -28,8 +28,8 @@ function getParamId(controller) {
         format: 'int32',
         required: false
       };
-  }
-  function getParamLimit() {
+}
+function getParamLimit() {
     return {
         name: 'limit',
         in: 'query',
@@ -38,8 +38,8 @@ function getParamId(controller) {
         format: 'int32',
         required: false
       };
-  }
-  function getParamCount() {
+}
+function getParamCount() {
     return {
         name: 'count',
         in: 'query',
@@ -47,8 +47,8 @@ function getParamId(controller) {
         type: 'boolean',
         required: false
       };
-  }
-  function getParamConditions() {
+}
+function getParamConditions() {
     return {
         name: 'conditions',
         in: 'query',
@@ -56,8 +56,8 @@ function getParamId(controller) {
         type: 'string',
         required: false
       };
-  }
-  function getParamSort() {
+}
+function getParamSort() {
     return {
         name: 'sort',
         in: 'query',
@@ -65,8 +65,8 @@ function getParamId(controller) {
         type: 'string',
         required: false
       };
-  }
-  function getParamSelect() {
+}
+function getParamSelect() {
     return {
       name: 'select',
       in: 'query',
@@ -74,8 +74,8 @@ function getParamId(controller) {
       type: 'string',
       required: false
     };
-  }  
-  function getParamPopulate() {
+}  
+function getParamPopulate() {
     return {
       name: 'populate',
       in: 'query',
@@ -83,8 +83,8 @@ function getParamId(controller) {
       type: 'string',
       required: false
     };
-  }  
-  function getParamDistinct() {
+}  
+function getParamDistinct() {
     return {
         name: 'distinct',
         in: 'query',
@@ -92,8 +92,8 @@ function getParamId(controller) {
         type: 'string',
         required: false
       };
-  }
-  function getParamHint() {
+}
+function getParamHint() {
     return {
         name: 'hint',
         in: 'query',
@@ -101,8 +101,8 @@ function getParamId(controller) {
         type: 'string',
         required: false
       };
-  }
-  function getParamComment() {
+}
+function getParamComment() {
     return {
         name: 'comment',
         in: 'query',
@@ -110,8 +110,15 @@ function getParamId(controller) {
         type: 'string',
         required: false
       };
-  }
-  function getParamDocument(isPost, controller) {
+}
+
+function getParamRef(name) {
+	return {
+		$ref: '#/parameters/' + name
+	};
+}
+
+function getParamDocument(isPost, controller) {
     // TODO post body can be single or array
     return {
         name: 'document',
@@ -124,10 +131,10 @@ function getParamId(controller) {
         }, 
         required: true
       };
-  }    
+}    
 
-  // Generate parameter list for operations
-  function generateOperationParameters(isInstance, verb, controller) {
+// Generate parameter list for operations
+function generateOperationParameters(isInstance, verb, controller) {
     var parameters = [];
 
     if (isInstance) {
@@ -140,64 +147,84 @@ function getParamId(controller) {
     addPutParameters(verb, controller, parameters);
 
     return parameters;
-  }
+}
 
-  function addOperationSingularParameters(verb, parameters) {
+function addOperationSingularParameters(verb, parameters) {
     if (verb === 'put') {
-      parameters.push(getParamXBaucisUpdateOperator());
+      parameters.push(getParamRef('X-Baucis-Update-Operator'));
     }
-  }
-  function addOperationCollectionParameters(verb, parameters) {
+}
+function addOperationCollectionParameters(verb, parameters) {
 	if (verb === 'get') {
-		parameters.push(getParamCount());
+		parameters.push(getParamRef('count'));
 	}      
-  }
-  function addPostParameters(verb, controller, parameters) {
+}
+function addPostParameters(verb, controller, parameters) {
     if (verb === 'post') {
       parameters.push(getParamDocument(true, controller));
     }
-  }
-  function addPutParameters(verb, controller, parameters) {
+}
+function addPutParameters(verb, controller, parameters) {
     if (verb === 'put') {
       parameters.push(getParamDocument(false, controller));
     }
-  }
+}
 
-  // Generate parameter list for path: common for several operations
-  function generatePathParameters(isInstance, controller) {
+// Generate parameter list for path: common for several operations
+function generatePathParameters(isInstance, controller) {
     var parameters = [];
     
     // Parameters available for singular and plural routes
-    parameters.push(getParamSelect(), 
-                    getParamPopulate());
+    parameters.push(getParamRef('select'), 
+                    getParamRef('populate'));
 
     if (isInstance) {
       // Parameters available for singular routes
-      addPathSingularParameters(controller, parameters);
+      addPathSingularParameters(parameters);
     }
     else {
 	  addPathCollectionParameters(parameters);
     }
     return parameters;
-  }
+}
 
-  function addPathSingularParameters(controller, parameters) {
+function addPathSingularParameters(parameters) {
 	// Parameters available for singular routes
-	 parameters.push(getParamId(controller));
-  }
-  function addPathCollectionParameters(parameters) {
+	 parameters.push(getParamRef('id'));
+}
+function addPathCollectionParameters(parameters) {
 	// Parameters available for plural routes
-	parameters.push(getParamSkip(),
-	              getParamLimit(),
-	              getParamConditions(),
-	              getParamSort(),
-	              getParamDistinct(),
-	              getParamHint(),
-	              getParamComment()
+	parameters.push(
+				  getParamRef('skip'),
+				  getParamRef('limit'),
+				  getParamRef('conditions'),
+				  getParamRef('sort'),
+				  getParamRef('distinct'),
+				  getParamRef('hint'),
+				  getParamRef('comment')
 	              );
-  }
+}
+function generateCommonParams() {
+	var parameters = [];
+	parameters.push(
+				getParamId(),
+				getParamSkip(),
+	            getParamLimit(),
+				getParamCount(),
+	            getParamConditions(),
+	            getParamSort(),
+	            getParamDistinct(),
+	            getParamHint(),
+	            getParamComment(),
+				getParamSelect(),
+				getParamPopulate(),
+				getParamXBaucisUpdateOperator()
+	              );
+	return parameters;
+}
 
 module.exports = {
 	generateOperationParameters : generateOperationParameters,
 	generatePathParameters : generatePathParameters,
+	generateCommonParams : generateCommonParams 
 };
