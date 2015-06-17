@@ -628,8 +628,8 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        expect(body.parameters).to.be.an(Array);
-        var param = getItemFromArray(body.parameters, 'name', 'skip'); 
+        expect(body.parameters).to.be.an(Object);
+        var param = body.parameters.skip; 
         expect(param).to.have.property('name', 'skip');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'How many documents to skip. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#skip');
@@ -649,7 +649,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        var param = getItemFromArray(body.parameters, 'name', 'limit'); 
+        var param = body.parameters.limit; 
         expect(param).to.have.property('name', 'limit');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'The maximum number of documents to send. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#limit');
@@ -668,7 +668,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-		var param = getItemFromArray(body.parameters, 'name', 'count'); 
+		var param = body.parameters.count;
         expect(param).to.have.property('name', 'count');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'Set to true to return count instead of documents. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#count');
@@ -686,7 +686,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-		var param = getItemFromArray(body.parameters, 'name', 'conditions'); 
+		var param = body.parameters.conditions;
         expect(param).to.have.property('name', 'conditions');
         expect(param).to.have.property('in', 'query');
         expect(param).to.have.property('description', 'Set the conditions used to find or remove the document(s). See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#conditions');
@@ -705,7 +705,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-		var param = getItemFromArray(body.parameters, 'name', 'sort'); 
+		var param = body.parameters.sort;
 
         expect(param).to.have.property('name', 'sort');
         expect(param).to.have.property('in', 'query');
@@ -725,7 +725,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-		var param = getItemFromArray(body.parameters, 'name', 'select'); 
+		var param = body.parameters.select;
  
         expect(param).to.have.property('name', 'select');
         expect(param).to.have.property('in', 'query');
@@ -745,7 +745,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-		var param = getItemFromArray(body.parameters, 'name', 'populate'); 
+		var param = body.parameters.populate; 
 
         expect(param).to.have.property('name', 'populate');
         expect(param).to.have.property('in', 'query');
@@ -764,7 +764,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-		var param = getItemFromArray(body.parameters, 'name', 'distinct'); 
+		var param = body.parameters.distinct; 
 
         expect(param).to.have.property('name', 'distinct');
         expect(param).to.have.property('in', 'query');
@@ -784,7 +784,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-		var param = getItemFromArray(body.parameters, 'name', 'hint'); 
+		var param = body.parameters.hint; 
 
         expect(param).to.have.property('name', 'hint');
         expect(param).to.have.property('in', 'query');
@@ -804,7 +804,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-		var param = getItemFromArray(body.parameters, 'name', 'comment'); 
+		var param = body.parameters.comment; 
  
         expect(param).to.have.property('name', 'comment');
         expect(param).to.have.property('in', 'query');
@@ -824,7 +824,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-		var param = getItemFromArray(body.parameters, 'name', 'id'); 
+		var param = body.parameters.id; 
 
         expect(param).to.have.property('name', 'id');
         expect(param).to.have.property('in', 'path');
@@ -844,7 +844,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-		var param = getItemFromArray(body.parameters, 'name', 'X-Baucis-Update-Operator'); 
+		var param = body.parameters['X-Baucis-Update-Operator']; 
         expect(param).to.have.property('name', 'X-Baucis-Update-Operator');
         expect(param).to.have.property('in', 'header');
         expect(param).to.have.property('description', '**BYPASSES VALIDATION** May be used with PUT to update the document using $push, $pull, or $set.');

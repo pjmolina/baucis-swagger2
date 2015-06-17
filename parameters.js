@@ -205,21 +205,19 @@ function addPathCollectionParameters(parameters) {
 	              );
 }
 function generateCommonParams() {
-	var parameters = [];
-	parameters.push(
-				getParamId(),
-				getParamSkip(),
-	            getParamLimit(),
-				getParamCount(),
-	            getParamConditions(),
-	            getParamSort(),
-	            getParamDistinct(),
-	            getParamHint(),
-	            getParamComment(),
-				getParamSelect(),
-				getParamPopulate(),
-				getParamXBaucisUpdateOperator()
-	              );
+	var parameters = {};
+	parameters.id = getParamId();
+	parameters.skip = getParamSkip();
+	parameters.limit = getParamLimit();
+	parameters.count = getParamCount();
+	parameters.conditions = getParamConditions();
+	parameters.sort = getParamSort();
+	parameters.distinct = getParamDistinct();
+	parameters.hint = getParamHint();
+	parameters.comment = getParamComment();
+	parameters.select = getParamSelect();
+	parameters.populate = getParamPopulate();
+	parameters['X-Baucis-Update-Operator'] = getParamXBaucisUpdateOperator();	
 	return parameters;
 }
 
