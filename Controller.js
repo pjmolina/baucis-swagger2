@@ -384,8 +384,8 @@ module.exports = function () {
     var instancePath =  '/' + pluralName + '/{id}'; 
 
     var paths = {};
-    buildPathParams(paths, instancePath, true, controller);
-    buildPathParams(paths, collectionPath, false, controller);
+    buildPathParams(paths, instancePath, true);
+    buildPathParams(paths, collectionPath, false);
   
     buildOperation(paths[instancePath], 'instance', 'get');
     buildOperation(paths[instancePath], 'instance', 'put');
@@ -398,8 +398,8 @@ module.exports = function () {
     return controller;
   };
 
-  function buildPathParams(pathContainer, path, isInstance, controller) {
-    var pathParams = params.generatePathParameters(isInstance, controller);
+  function buildPathParams(pathContainer, path, isInstance) {
+    var pathParams = params.generatePathParameters(isInstance);
     if (pathParams.length > 0) {
       pathContainer[path] = {
         parameters : pathParams

@@ -171,7 +171,7 @@ function addPutParameters(verb, controller, parameters) {
 }
 
 // Generate parameter list for path: common for several operations
-function generatePathParameters(isInstance, controller) {
+function generatePathParameters(isInstance) {
     var parameters = [];
     
     // Parameters available for singular and plural routes
