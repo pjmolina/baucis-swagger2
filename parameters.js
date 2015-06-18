@@ -157,7 +157,17 @@ function addOperationSingularParameters(verb, parameters) {
 function addOperationCollectionParameters(verb, parameters) {
 	if (verb === 'get') {
 		parameters.push(getParamRef('count'));
-	}      
+	}
+	if (verb === 'get' || verb === 'delete') {
+		parameters.push(
+				  getParamRef('skip'),
+				  getParamRef('limit'),
+				  getParamRef('conditions'),
+				  getParamRef('distinct'),
+				  getParamRef('hint'),
+				  getParamRef('comment')
+	              );
+	}		
 }
 function addPostParameters(verb, controller, parameters) {
     if (verb === 'post') {
@@ -193,16 +203,9 @@ function addPathSingularParameters(parameters) {
 	 parameters.push(getParamRef('id'));
 }
 function addPathCollectionParameters(parameters) {
-	// Parameters available for plural routes
+	// Common Parameters available for plural routes 
 	parameters.push(
-				  getParamRef('skip'),
-				  getParamRef('limit'),
-				  getParamRef('conditions'),
-				  getParamRef('sort'),
-				  getParamRef('distinct'),
-				  getParamRef('hint'),
-				  getParamRef('comment')
-	              );
+				getParamRef('sort'));
 }
 function generateCommonParams() {
 	var parameters = {};

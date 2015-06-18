@@ -867,8 +867,8 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        expect(body.paths['/vegetables'].parameters).to.be.an(Array);
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/skip'); 
+        expect(body.paths['/vegetables'].get.parameters).to.be.an(Array);
+        var param = getItemFromArray(body.paths['/vegetables'].get.parameters, '$ref', '#/parameters/skip'); 
         expect(param).to.have.property('$ref', '#/parameters/skip');
         
         done();
@@ -882,7 +882,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/limit'); 
+        var param = getItemFromArray(body.paths['/vegetables'].get.parameters, '$ref', '#/parameters/limit'); 
         expect(param).to.have.property('$ref', '#/parameters/limit');
         
         done();
@@ -910,7 +910,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/conditions'); 
+        var param = getItemFromArray(body.paths['/vegetables'].get.parameters, '$ref', '#/parameters/conditions'); 
         expect(param).to.have.property('$ref', '#/parameters/conditions');
         
         done();
@@ -966,7 +966,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/distinct'); 
+        var param = getItemFromArray(body.paths['/vegetables'].get.parameters, '$ref', '#/parameters/distinct'); 
         expect(param).to.have.property('$ref', '#/parameters/distinct');
         
         done();
@@ -980,7 +980,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/hint'); 
+        var param = getItemFromArray(body.paths['/vegetables'].get.parameters, '$ref', '#/parameters/hint'); 
         expect(param).to.have.property('$ref', '#/parameters/hint');
         
         done();
@@ -994,7 +994,7 @@ describe('Swagger 2.0 Resources', function () {
       request.get(options, function (err, response, body) {
         if (err) return done(err);
 
-        var param = getItemFromArray(body.paths['/vegetables'].parameters, '$ref', '#/parameters/comment'); 
+        var param = getItemFromArray(body.paths['/vegetables'].get.parameters, '$ref', '#/parameters/comment'); 
         expect(param).to.have.property('$ref', '#/parameters/comment');
         
         done();
