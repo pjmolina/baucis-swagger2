@@ -28,7 +28,7 @@ module.exports = function () {
         'type': 'string'  
       }
     };
-    if (isInstance) {
+    if (isInstance || verb==='post') {
       responses['200'] = {
         description: 'Sucessful response. Single resource.',
         schema: {

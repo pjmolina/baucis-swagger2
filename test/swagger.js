@@ -505,9 +505,8 @@ describe('Swagger 2.0 Resources', function () {
         expect(collectionResponses['422'].description).to.be('Validation error.');
         expect(collectionResponses['422'].schema.type).to.be('array');
         expect(collectionResponses['422'].schema.items.$ref).to.be('#/definitions/ValidationError');
-        expect(collectionResponses['200'].description).to.be('Sucessful response. Collection of resources.');
-        expect(collectionResponses['200'].schema.type).to.be('array');
-        expect(collectionResponses['200'].schema.items.$ref).to.be('#/definitions/Vegetable');
+        expect(collectionResponses['200'].description).to.be('Sucessful response. Single resource.');
+        expect(collectionResponses['200'].schema.$ref).to.be('#/definitions/Vegetable');
         expect(collectionResponses['default'].description).to.be('Unexpected error.');
         expect(collectionResponses['default'].schema.type).to.be('string');
         expect(Object.keys(collectionResponses).length).to.be(4);
