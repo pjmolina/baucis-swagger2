@@ -14,7 +14,7 @@ function getParamXBaucisUpdateOperator() {
     return {
         name: 'X-Baucis-Update-Operator',
         in: 'header',
-        description: '**BYPASSES VALIDATION** May be used with PUT to update the document using $push, $pull, or $set.',
+        description: '**BYPASSES VALIDATION** May be used with PUT to update the document using $push, $pull, or $set. [doc](https://github.com/wprl/baucis/wiki/HTTP-Headers)',
         type: 'string',
         required: false
       };
@@ -23,7 +23,7 @@ function getParamSkip() {
     return {
         name: 'skip',
         in: 'query',
-        description: 'How many documents to skip. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#skip',
+        description: 'How many documents to skip. [doc](https://github.com/wprl/baucis/wiki/Query-String-Parameters#skip)',
         type: 'integer',
         format: 'int32',
         required: false
@@ -33,7 +33,7 @@ function getParamLimit() {
     return {
         name: 'limit',
         in: 'query',
-        description: 'The maximum number of documents to send. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#limit',
+        description: 'The maximum number of documents to send. [doc](https://github.com/wprl/baucis/wiki/Query-String-Parameters#limit)',
         type: 'integer',
         format: 'int32',
         required: false
@@ -43,7 +43,7 @@ function getParamCount() {
     return {
         name: 'count',
         in: 'query',
-        description: 'Set to true to return count instead of documents. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#count',
+        description: 'Set to true to return count instead of documents. [doc](https://github.com/wprl/baucis/wiki/Query-String-Parameters#count)',
         type: 'boolean',
         required: false
       };
@@ -52,7 +52,7 @@ function getParamConditions() {
     return {
         name: 'conditions',
         in: 'query',
-        description: 'Set the conditions used to find or remove the document(s). See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#conditions',
+        description: 'Set the conditions used to find or remove the document(s). [doc](https://github.com/wprl/baucis/wiki/Query-String-Parameters#conditions)',
         type: 'string',
         required: false
       };
@@ -61,7 +61,7 @@ function getParamSort() {
     return {
         name: 'sort',
         in: 'query',
-        description: 'Set the fields by which to sort. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#sort',
+        description: 'Set the fields by which to sort. [doc](https://github.com/wprl/baucis/wiki/Query-String-Parameters#sort)',
         type: 'string',
         required: false
       };
@@ -70,7 +70,7 @@ function getParamSelect() {
     return {
       name: 'select',
       in: 'query',
-      description: 'Select which paths will be returned by the query. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#select',
+      description: 'Select which paths will be returned by the query. [doc](https://github.com/wprl/baucis/wiki/Query-String-Parameters#select)',
       type: 'string',
       required: false
     };
@@ -79,7 +79,7 @@ function getParamPopulate() {
     return {
       name: 'populate',
       in: 'query',
-      description: 'Specify which paths to populate. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#populate',
+      description: 'Specify which paths to populate. [doc](https://github.com/wprl/baucis/wiki/Query-String-Parameters#populate)',
       type: 'string',
       required: false
     };
@@ -88,7 +88,7 @@ function getParamDistinct() {
     return {
         name: 'distinct',
         in: 'query',
-        description: 'Set to a path name to retrieve an array of distinct values. See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#distinct',
+        description: 'Set to a path name to retrieve an array of distinct values. [doc](https://github.com/wprl/baucis/wiki/Query-String-Parameters#distinct)',
         type: 'string',
         required: false
       };
@@ -97,7 +97,7 @@ function getParamHint() {
     return {
         name: 'hint',
         in: 'query',
-        description: 'Add an index hint to the query (must be enabled per controller). See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#hint',
+        description: 'Add an index hint to the query (must be enabled per controller). [doc](https://github.com/wprl/baucis/wiki/Query-String-Parameters#hint)',
         type: 'string',
         required: false
       };
@@ -106,7 +106,7 @@ function getParamComment() {
     return {
         name: 'comment',
         in: 'query',
-        description: 'Add a comment to a query (must be enabled per controller). See doc: https://github.com/wprl/baucis/wiki/Query-String-Parameters#comment',
+        description: 'Add a comment to a query (must be enabled per controller). [doc](https://github.com/wprl/baucis/wiki/Query-String-Parameters#comment)',
         type: 'string',
         required: false
       };
@@ -124,7 +124,7 @@ function getParamDocument(isPost, controller) {
         name: 'document',
         in: 'body',
         description: (isPost) ?
-           'Create a document by sending the paths to be updated in the request body.' :
+           'Create a document by sending the paths to be added in the request body.' :
            'Update a document by sending the paths to be updated in the request body.',
         schema: {
           $ref: '#/definitions/' + utils.capitalize(controller.model().singular()),
