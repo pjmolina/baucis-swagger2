@@ -1154,8 +1154,8 @@ describe('Swagger 2.0 Resources', function () {
         expect(body.definitions.ChargeArea.properties).to.have.property('clusters');
         expect(body.definitions.ChargeArea.properties.clusters.type).to.be('array');
         expect(body.definitions.ChargeArea.properties.clusters).to.have.property('items');
-        expect(body.definitions.ChargeArea.properties.clusters.items).to.have.property('$ref');
-        expect(body.definitions.ChargeArea.properties.clusters.items.$ref).to.be('string'); //ids refs -> string
+        expect(body.definitions.ChargeArea.properties.clusters.items).to.have.property('type');
+        expect(body.definitions.ChargeArea.properties.clusters.items.type).to.be('string'); //ids refs -> string
          
         done();
       });

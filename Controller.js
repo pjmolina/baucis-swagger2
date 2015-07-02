@@ -233,7 +233,7 @@ module.exports = function () {
 	  if ('array' === type) {
 	    if (isArrayOfRefs(path.options.type)) {
   		  property.items = {
-  		    $ref: 'string'  //handle references as string (serialization for objectId)
+  		    type: 'string'  //handle references as string (serialization for objectId)
   		  };    
   		}
       else {
