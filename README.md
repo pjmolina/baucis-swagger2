@@ -5,7 +5,6 @@ baucis-swagger2
 [![Code Climate](https://codeclimate.com/github/Icinetic/baucis-swagger2/badges/gpa.svg)](https://codeclimate.com/github/Icinetic/baucis-swagger2)
 [![Test Coverage](https://codeclimate.com/github/Icinetic/baucis-swagger2/badges/coverage.svg)](https://codeclimate.com/github/Icinetic/baucis-swagger2)
 [![Dependency Status](https://david-dm.org/icinetic/baucis-swagger2.svg)](https://david-dm.org/icinetic/baucis-swagger2)
-[![GitHub version](https://badge.fury.io/gh/icinetic%2Fbaucis-swagger2.svg)](http://badge.fury.io/gh/icinetic%2Fbaucis-swagger2)
 [![npm version](https://badge.fury.io/js/baucis-swagger2.svg)](http://badge.fury.io/js/baucis-swagger2)
 
 [![NPM](https://nodei.co/npm/baucis-swagger2.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/baucis-swagger2/)
