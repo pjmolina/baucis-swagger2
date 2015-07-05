@@ -1,6 +1,6 @@
 {
   "name": "baucis-swagger2",
-  "version": "0.3.11",
+  "version": "0.3.12",
   "description": "Generate customizable swagger version 2.0 definitions for your Baucis REST API.",
   "homepage": "https://github.com/icinetic/baucis-swagger2",
   "repository": {
@@ -38,7 +38,7 @@
   },
   "peerDependencies": {
     "mongoose": ">=3 <5",
-    "baucis": "~1.5.1"
+    "baucis": "^1.0.0"
   },
   "devDependencies": {
     "async": "~1.2.1",
