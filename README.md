@@ -109,6 +109,6 @@ Contact
 -------
 
  * http://www.icinetic.com
- * [@icinetic](https://twitter.com/icinetic) [@theappnow](https://twitter.com/theappnow) [@pmolinam](https://twitter.com/pmolinam)
+ * [@icinetic](https://twitter.com/icinetic) [@hivepodio](https://twitter.com/hivepodio) [@pmolinam](https://twitter.com/pmolinam)
 
 &copy; 2014-2015 Icinetic
