@@ -49,7 +49,7 @@
     "istanbul": "^0.3.13",
     "mocha": "~2.3.2",
     "mongoose": "^4.1.6",
-    "request": "~2.61.0"
+    "request": "^2.64.0"
   },
   "keywords": [
     "baucis",
