@@ -435,7 +435,7 @@ describe('Swagger 2.0 Resources', function () {
           'summary': 'Get the best vegetable'
           }
       };
-      fixtures.vegetable.controller.swagger2.definitions['BestVegetable'] = {
+      fixtures.vegetable.controller.swagger2.definitions.BestVegetable = {
         required: [],
         properties: {
           "name": {
@@ -494,7 +494,7 @@ describe('Swagger 2.0 Resources', function () {
         expect(instanceResponses['404'].description).to.be('No vegetable was found with that ID.');
         expect(instanceResponses['404'].schema.type).to.be('string');
         expect(instanceResponses['200'].description).to.be('Sucessful response. Single resource.');
-        expect(instanceResponses['200'].schema['$ref']).to.be('#/definitions/Vegetable');
+        expect(instanceResponses['200'].schema.$ref).to.be('#/definitions/Vegetable');
         expect(instanceResponses['default'].description).to.be('Unexpected error.');
         expect(instanceResponses['default'].schema.type).to.be('string');
         expect(Object.keys(instanceResponses).length).to.be(3);
