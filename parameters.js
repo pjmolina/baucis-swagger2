@@ -119,7 +119,6 @@ function getParamRef(name) {
 }
 
 function getParamDocument(isPost, controller) {
-    // TODO post body can be single or array
     return {
         name: 'document',
         in: 'body',
@@ -127,6 +126,8 @@ function getParamDocument(isPost, controller) {
            'Create a document by sending the paths to be added in the request body.' :
            'Update a document by sending the paths to be updated in the request body.',
         schema: {
+		  // Pending: post body in baucis can be single or array: Polymorphic: not able to express this overload in Swagger 2.0
+		  // Document as single
           $ref: '#/definitions/' + utils.capitalize(controller.model().singular()),
         }, 
         required: true
