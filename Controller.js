@@ -47,7 +47,7 @@ module.exports = function () {
         }
       };      
     }
-    // TODO other errors (400, 403, etc. )
+    // Add other errors if needed: (400, 403, 412 etc. )
     responses['404'] = {
       description: (isInstance) ?
                         'No ' + resourceName + ' was found with that ID.' :
@@ -84,22 +84,32 @@ module.exports = function () {
     var resourceName = controller.model().singular();
     var pluralName = controller.model().plural();
     var isInstance = (mode === 'instance');
-	  var resourceKey = utils.capitalize(resourceName);
+	var resourceKey = utils.capitalize(resourceName);
     var res = {
       //consumes: ['application/json'], //if used overrides global definition
       //produces: ['application/json'], //if used overrides global definition
       parameters: params.generateOperationParameters(isInstance, verb, controller),
       responses: buildResponsesFor(isInstance, verb, resourceName, pluralName)
     };
-  if (res.parameters.length === 0) {
-    delete(res.parameters);
-  }
+    if (res.parameters.length === 0) {
+      delete(res.parameters);
+    }
 	var sec = buildSecurityFor();
 	if (sec) {
 		res.security = sec;
 	}
     if (isInstance) {
-      if ('get' === verb) {
+		return buildBaseOperationInstance(verb, res, resourceKey, resourceName);
+	}
+	else {
+		 //collection
+		return buildBaseOperationCollection(verb, res, resourceKey, pluralName);
+	}
+    return res;
+  }
+  
+  function buildBaseOperationInstance(verb, res, resourceKey, resourceName) {
+	 if ('get' === verb) {
     		return buildOperationInfo(res, 
     				   'get' + resourceKey + 'ById',
     				   'Get a ' + resourceName + ' by its unique ID',
@@ -116,10 +126,10 @@ module.exports = function () {
     				   'delete' + resourceKey + 'ById',
     				   'Delete a ' + resourceName + ' by its unique ID',
     				   'Deletes an existing ' + resourceName + ' by its ID' + '.');
-      }        
-    } else {
-      //collection
-      if ('get' === verb) {
+      }         
+  }
+  function buildBaseOperationCollection(verb, res, resourceKey, pluralName) {
+	  if ('get' === verb) {
     		return buildOperationInfo(res, 
     				   'query' + resourceKey,
     				   'Query some ' + pluralName,
@@ -136,9 +146,7 @@ module.exports = function () {
     				   'delete' + resourceKey + 'ByQuery',
     				   'Delete some ' + pluralName + ' by query',
     				   'Delete all ' + pluralName + ' matching the specified query.');
-      }      
-    }
-    return res;
+      }
   }
 
   function buildOperation(containerPath, mode, verb) { 
@@ -152,25 +160,34 @@ module.exports = function () {
   // Convert a Mongoose type into a Swagger type
    function swagger20TypeFor(type) {
     if (!type) { return null; }
-    if (type === String) { return 'string'; }
     if (type === Number) { return 'number'; }
-    if (type === Date) { return 'string'; }
     if (type === Boolean) { return 'boolean'; }
-    if (type === mongoose.Schema.Types.ObjectId) { return 'string'; }
-    if (type === mongoose.Schema.Types.Oid) { return 'string'; }
-    if (type === mongoose.Schema.Types.Array) { return 'array'; }
-    if (Array.isArray(type) || type.name === "Array") { return 'array'; }
-    if (type === Object) { return null;}
-    if (type instanceof Object) { return null; }
-    if (type === mongoose.Schema.Types.Mixed) { return null; }
-    if (type === mongoose.Schema.Types.Buffer) { return null; }
+    if (type === String || 
+		type === Date ||
+		type === mongoose.Schema.Types.ObjectId || 
+		type === mongoose.Schema.Types.Oid) { 
+		return 'string'; 
+	}
+    if (type === mongoose.Schema.Types.Array || 
+		Array.isArray(type) || 
+		type.name === "Array") { 
+		return 'array'; 
+	}
+    if (type === Object  ||
+		type instanceof Object ||
+		type === mongoose.Schema.Types.Mixed ||
+		type === mongoose.Schema.Types.Buffer) { 
+		return null; 
+	}
     throw new Error('Unrecognized type: ' + type);
   }
   function swagger20TypeFormatFor(type) {
     if (!type) { return null; }
-    if (type === String) { return null; }
     if (type === Number) { return 'double'; }
     if (type === Date) { return 'date-time'; }
+	
+	/*
+    if (type === String) { return null; }
     if (type === Boolean) { return null; }
     if (type === mongoose.Schema.Types.ObjectId) { return null; }
     if (type === mongoose.Schema.Types.Oid) { return null; }
@@ -180,6 +197,7 @@ module.exports = function () {
     if (type instanceof Object) { return null; }
     if (type === mongoose.Schema.Types.Mixed) { return null; }
     if (type === mongoose.Schema.Types.Buffer) { return null; }
+	*/
     return null;
   }
   function skipProperty(name, path, controller) {
@@ -191,7 +209,7 @@ module.exports = function () {
     if (path.selected === false) { 
       return true; 
     }
-    // TODO is _id always included unless explicitly excluded?
+    // _id always included unless explicitly excluded?
 
     // If it's excluded, skip this one.
     if (select && mode === 'exclusive' && select.match(exclusiveNamePattern)) { 
@@ -262,17 +280,17 @@ module.exports = function () {
 	/*
     // Set enum values if applicable
     if (path.enumValues && path.enumValues.length > 0) {
-      // TODO:  property.allowableValues = { valueType: 'LIST', values: path.enumValues };
+      // Pending:  property.allowableValues = { valueType: 'LIST', values: path.enumValues };
     }
     // Set allowable values range if min or max is present
     if (!isNaN(path.options.min) || !isNaN(path.options.max)) {
-      // TODO: property.allowableValues = { valueType: 'RANGE' };
+      // Pending: property.allowableValues = { valueType: 'RANGE' };
     }
     if (!isNaN(path.options.min)) {
-      // TODO: property.allowableValues.min = path.options.min;
+      // Pending: property.allowableValues.min = path.options.min;
     }
     if (!isNaN(path.options.max)) {
-      // TODO: property.allowableValues.max = path.options.max;
+      // Pending: property.allowableValues.max = path.options.max;
     }
 	*/
     if (!property.type && !property.$ref) {
