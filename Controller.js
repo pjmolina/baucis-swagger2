@@ -98,6 +98,7 @@ module.exports = function () {
 	if (sec) {
 		res.security = sec;
 	}
+
     if (isInstance) {
 		return buildBaseOperationInstance(verb, res, resourceKey, resourceName);
 	}
@@ -105,7 +106,6 @@ module.exports = function () {
 		 //collection
 		return buildBaseOperationCollection(verb, res, resourceKey, pluralName);
 	}
-    return res;
   }
   
   function buildBaseOperationInstance(verb, res, resourceKey, resourceName) {
