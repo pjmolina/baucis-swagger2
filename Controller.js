@@ -322,8 +322,8 @@ module.exports = function () {
   }
 
   function isArrayOfRefs(type) {
-	return (type && type.length > 0 && type[0].ref && 
-	        type[0].type && type[0].type.name === 'ObjectId'); 
+	    return (type && type.length > 0 && type[0] && type[0].ref && 
+	            type[0].type && type[0].type.name === 'ObjectId'); 
   }  
   function warnInvalidType(name, path) {
     console.log('Warning: That field type is not yet supported in baucis Swagger definitions, using "string."');
