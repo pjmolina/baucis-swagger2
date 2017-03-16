@@ -289,6 +289,31 @@ describe('Swagger 2.0 Resources', function () {
         done();
       });
     });
+    it('all operations must have a unique operationId', function (done) {
+      var options = {
+        url: 'http://127.0.0.1:8012/api/swagger.json',
+        json: true
+      };
+      request.get(options, function (err, response, body) {
+        if (err) return done(err);
+
+        expect(response).to.have.property('statusCode', 200);
+    
+        var paths = body.paths;  
+        var dic = {};
+
+        for(var i=0; i<paths.length; i++) {
+          var path = paths[i];
+          var operationId = path.operationId;
+          if (dic[operationId]) {
+            done("Error. Detected duplicate operationId: " + operationId);
+            return;
+          }
+          dic[operationId] = operationId;
+        }
+        done();
+      });
+    });
   });
 
   describe('models', function () {
